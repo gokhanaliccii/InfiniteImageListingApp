@@ -24,15 +24,22 @@ class JsonParserTest {
 
     @Test
     fun shouldParseJsonCorrectly() {
-        val expectedName = "gokhan"
+        val expectedFrientCount = 1
         val input = "{\"name\":\"gokhan\",\"age\":1,\"friends\":[{\"name\":\"ahmet\"}]}"
         val student = JsonParser().parse(input, Student::class.java)
 
-        student.name
-
-
-        assertTrue(expectedName == student?.name)
+        assertTrue(expectedFrientCount == student?.friends?.size)
     }
+
+    @Test
+    fun shouldParseInnerObjectCorrectly() {
+        val expectedFriendName = "ahmet"
+        val input = "{\"name\":\"gokhan\",\"age\":1,\"friend\":{\"name\":\"ahmet\"}}"
+        val student = JsonParser().parse(input, SingleStudent::class.java)
+
+        assertTrue(expectedFriendName == student?.friend?.name)
+    }
+
 
     class Friend {
         lateinit var name: String
@@ -44,6 +51,14 @@ class JsonParserTest {
 
         @JsonList(Friend::class)
         lateinit var friends: List<Friend>
+    }
+
+    class SingleStudent {
+        var age: Int = 0
+        lateinit var name: String
+
+        @JsonObject(Friend::class)
+        lateinit var friend: Friend
     }
 
     class NamedPerson {

@@ -22,10 +22,8 @@ public class JsonParser {
         T object = newInstance(clazz);
 
         if (json.startsWith("{")) {
-
             JSONObject jsonObject = new JSONObject(json);
             fillObject(object, jsonObject);
-
         }
 
         return object;
@@ -53,11 +51,16 @@ public class JsonParser {
                 continue;
             }
 
-
             field.setAccessible(true);
             if (field.isAnnotationPresent(JsonList.class)) {
                 Class<?> value = field.getAnnotation(JsonList.class).value();
                 fillArray(object, field, value, jsonObject.getJSONArray(field.getName()));
+                continue;
+            } else if (field.isAnnotationPresent(JsonObject.class)) {
+                Class<?> value = field.getAnnotation(JsonObject.class).value();
+                Object newInstance = newInstance(value);
+                fillObject(newInstance, jsonObject.getJSONObject(field.getName()));
+                field.set(object, newInstance);
                 continue;
             }
 
