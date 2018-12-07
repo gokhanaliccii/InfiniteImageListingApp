@@ -22,23 +22,31 @@ class JsonParserTest {
         assertTrue(expectedName == person?.name)
     }
 
-    /* @Test
-     fun shouldParseJsonCorrectly() {
-         val expectedName = "gokhan"
-         val input = "{\"name\":\"gokhan\",\"age\":1,\"friends\":[{\"name\":\"ahmet\"}]}"
-         val student = JsonParser().parse(input, Student::class)
+    @Test
+    fun shouldParseJsonCorrectly() {
+        val expectedName = "gokhan"
+        val input = "{\"name\":\"gokhan\",\"age\":1,\"friends\":[{\"name\":\"ahmet\"}]}"
+        val student = JsonParser().parse(input, Student::class.java)
 
-         assertTrue(expectedName == student?.name)
-     }*/
+        student.name
 
 
-    class Friend(val name: String)
+        assertTrue(expectedName == student?.name)
+    }
 
-    class Student(val name: String, val age: Int, val friends: List<Friend>)
+    class Friend {
+        lateinit var name: String
+    }
+
+    class Student {
+        var age: Int = 0
+        lateinit var name: String
+
+        @JsonList(Friend::class)
+        lateinit var friends: List<Friend>
+    }
 
     class NamedPerson {
         lateinit var name: String
     }
-
-
 }
