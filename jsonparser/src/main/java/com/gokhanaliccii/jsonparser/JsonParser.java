@@ -22,7 +22,7 @@ public class JsonParser {
         if (JsonSyntaxKt.hasValidSyntax(json)) {
             object = newInstance(clazz);
 
-            if (JsonSyntaxKt.isJsonObjectStart(json)) {
+            if (JsonSyntaxKt.isJsonObject(json)) {
                 try {
                     parseJsonObject(json, object);
                 } catch (JSONException e) {
@@ -58,12 +58,8 @@ public class JsonParser {
     private void fillObject(Object object, JSONObject jsonObject) throws JSONException, IllegalAccessException, InstantiationException {
         Field[] declaredFields = object.getClass().getDeclaredFields();
         for (Field field : declaredFields) {
-            if (field == null)
+            if (thatFieldNotExistAtJson(jsonObject, field))
                 continue;
-
-            if (!jsonObject.has(field.getName())) {
-                continue;
-            }
 
             if (!field.isAccessible()) {
                 field.setAccessible(true);
@@ -72,18 +68,20 @@ public class JsonParser {
             if (field.isAnnotationPresent(JsonList.class)) {
                 Class<?> value = field.getAnnotation(JsonList.class).value();
                 fillArray(object, field, value, jsonObject.getJSONArray(field.getName()));
-                continue;
             } else if (field.isAnnotationPresent(JsonObject.class)) {
                 Class<?> value = field.getAnnotation(JsonObject.class).value();
                 Object newInstance = newInstance(value);
                 fillObject(newInstance, jsonObject.getJSONObject(field.getName()));
                 field.set(object, newInstance);
-                continue;
+            } else {
+                Object value = jsonObject.get(field.getName());
+                field.set(object, value);
             }
-
-            Object value = jsonObject.get(field.getName());
-            field.set(object, value);
         }
+    }
+
+    private boolean thatFieldNotExistAtJson(JSONObject jsonObject, Field field) {
+        return !jsonObject.has(field.getName());
     }
 
     private void fillArray(Object object, Field field, Class<?> newObjectCandidate, JSONArray jsonArray) throws JSONException, InstantiationException, IllegalAccessException {

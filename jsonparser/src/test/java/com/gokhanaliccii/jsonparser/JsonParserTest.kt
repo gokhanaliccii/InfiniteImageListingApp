@@ -10,7 +10,7 @@ class JsonParserTest {
     @Test
     fun shouldParsedObjectNotNull() {
         val input = "{\"name\":\"gokhan\",\"age\":1}"
-        val person = JsonParser().parse(input, NamedPerson::class.java)
+        val person = input.jsonTo(NamedPerson::class.java)
 
         assertNotNull(person)
     }
@@ -19,8 +19,7 @@ class JsonParserTest {
     fun shouldParseStringFieldCorrectly() {
         val expectedName = "gokhan"
         val input = "{\"name\":\"gokhan\",\"age\":1}"
-       // val person = JsonParser().parse(input, NamedPerson::class.java)
-        val person = parse3(input, NamedPerson::class.java)
+        val person = input.jsonTo(NamedPerson::class.java)
 
         assertTrue(expectedName == person?.name)
     }
@@ -29,7 +28,7 @@ class JsonParserTest {
     fun shouldParseJsonCorrectly() {
         val expectedFrientCount = 1
         val input = "{\"name\":\"gokhan\",\"age\":1,\"friends\":[{\"name\":\"ahmet\"}]}"
-        val student = JsonParser().parse(input, Student::class.java)
+        val student = input.jsonTo(Student::class.java)
 
         assertTrue(expectedFrientCount == student?.friends?.size)
     }
@@ -38,7 +37,7 @@ class JsonParserTest {
     fun shouldParseInnerObjectCorrectly() {
         val expectedFriendName = "ahmet"
         val input = "{\"name\":\"gokhan\",\"age\":1,\"friend\":{\"name\":\"ahmet\"}}"
-        val student = JsonParser().parse(input, SingleStudent::class.java)
+        val student = input.jsonTo(SingleStudent::class.java)
 
         assertTrue(expectedFriendName == student?.friend?.name)
     }

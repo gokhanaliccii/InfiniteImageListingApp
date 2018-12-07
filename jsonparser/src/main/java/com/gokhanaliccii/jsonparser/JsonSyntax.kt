@@ -11,10 +11,10 @@ internal fun String.hasValidSyntax(): Boolean {
             || startsWith(JSON_OBJECT_START) && endsWith(JSON_OBJECT_END)
 }
 
-internal fun String.isJsonObjectStart(): Boolean {
+internal fun String.isJsonObject(): Boolean {
     return startsWith(JSON_OBJECT_START)
 }
 
-internal fun String.isJsonArrayStart(): Boolean {
+internal fun String.isJsonArray(): Boolean {
     return startsWith(JSON_ARRAY_START)
 }
