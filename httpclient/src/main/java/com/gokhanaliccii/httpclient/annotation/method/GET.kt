@@ -1,4 +1,4 @@
-package com.gokhanaliccii.httpclient.request.method
+package com.gokhanaliccii.httpclient.annotation.method
 
 @MustBeDocumented
 @Target(AnnotationTarget.FUNCTION)

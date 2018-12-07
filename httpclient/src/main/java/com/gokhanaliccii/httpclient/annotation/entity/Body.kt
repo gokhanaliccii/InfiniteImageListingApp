@@ -1,4 +1,4 @@
-package com.gokhanaliccii.httpclient.request.entity
+package com.gokhanaliccii.httpclient.annotation.entity
 
 @MustBeDocumented
 @Target(AnnotationTarget.VALUE_PARAMETER)

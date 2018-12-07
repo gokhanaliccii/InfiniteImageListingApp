@@ -1,4 +1,4 @@
-package com.gokhanaliccii.httpclient.request.header
+package com.gokhanaliccii.httpclient.annotation.header
 
 
 @MustBeDocumented

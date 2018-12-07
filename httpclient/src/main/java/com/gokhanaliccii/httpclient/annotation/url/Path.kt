@@ -1,4 +1,4 @@
-package com.gokhanaliccii.httpclient.request.url
+package com.gokhanaliccii.httpclient.annotation.url
 
 
 @MustBeDocumented
