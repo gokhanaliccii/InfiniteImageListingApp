@@ -1,5 +1,7 @@
 package com.gokhanaliccii.jsonparser
 
+import com.gokhanaliccii.jsonparser.annotation.JsonList
+import com.gokhanaliccii.jsonparser.annotation.JsonObject
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -17,7 +19,8 @@ class JsonParserTest {
     fun shouldParseStringFieldCorrectly() {
         val expectedName = "gokhan"
         val input = "{\"name\":\"gokhan\",\"age\":1}"
-        val person = JsonParser().parse(input, NamedPerson::class.java)
+       // val person = JsonParser().parse(input, NamedPerson::class.java)
+        val person = parse3(input, NamedPerson::class.java)
 
         assertTrue(expectedName == person?.name)
     }
@@ -39,7 +42,6 @@ class JsonParserTest {
 
         assertTrue(expectedFriendName == student?.friend?.name)
     }
-
 
     class Friend {
         lateinit var name: String

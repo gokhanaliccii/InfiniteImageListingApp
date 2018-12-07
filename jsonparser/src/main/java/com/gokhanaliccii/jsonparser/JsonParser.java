@@ -1,5 +1,7 @@
 package com.gokhanaliccii.jsonparser;
 
+import com.gokhanaliccii.jsonparser.annotation.JsonList;
+import com.gokhanaliccii.jsonparser.annotation.JsonObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,23 +12,35 @@ import java.util.List;
 
 public class JsonParser {
 
-    <T> T parse(String json, Class<T> clazz) throws JSONException, IllegalAccessException, InstantiationException {
+    <T> T parse(String json, Class<T> clazz) {
+        T object = null;
+
         if (json == null || json.isEmpty()) {
             return null;
         }
 
-        if (!(json.startsWith("{") || json.startsWith("["))) {
-            return null;
-        }
+        if (JsonSyntaxKt.hasValidSyntax(json)) {
+            object = newInstance(clazz);
 
-        T object = newInstance(clazz);
-
-        if (json.startsWith("{")) {
-            JSONObject jsonObject = new JSONObject(json);
-            fillObject(object, jsonObject);
+            if (JsonSyntaxKt.isJsonObjectStart(json)) {
+                try {
+                    parseJsonObject(json, object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         return object;
+    }
+
+    private <T> void parseJsonObject(String json, T object) throws JSONException, IllegalAccessException, InstantiationException {
+        JSONObject jsonObject = new JSONObject(json);
+        fillObject(object, jsonObject);
     }
 
     private <T> T newInstance(Class<T> clazz) {
@@ -41,7 +55,7 @@ public class JsonParser {
         return null;
     }
 
-    void fillObject(Object object, JSONObject jsonObject) throws JSONException, IllegalAccessException, InstantiationException {
+    private void fillObject(Object object, JSONObject jsonObject) throws JSONException, IllegalAccessException, InstantiationException {
         Field[] declaredFields = object.getClass().getDeclaredFields();
         for (Field field : declaredFields) {
             if (field == null)
@@ -51,7 +65,10 @@ public class JsonParser {
                 continue;
             }
 
-            field.setAccessible(true);
+            if (!field.isAccessible()) {
+                field.setAccessible(true);
+            }
+
             if (field.isAnnotationPresent(JsonList.class)) {
                 Class<?> value = field.getAnnotation(JsonList.class).value();
                 fillArray(object, field, value, jsonObject.getJSONArray(field.getName()));
@@ -64,23 +81,22 @@ public class JsonParser {
                 continue;
             }
 
-            Object objectValue = jsonObject.get(field.getName());
-            field.set(object, objectValue);
-
+            Object value = jsonObject.get(field.getName());
+            field.set(object, value);
         }
     }
 
-    void fillArray(Object object, Field field, Class<?> clazz, JSONArray jsonArray) throws JSONException, InstantiationException, IllegalAccessException {
-        List childs = new ArrayList();
+    private void fillArray(Object object, Field field, Class<?> newObjectCandidate, JSONArray jsonArray) throws JSONException, InstantiationException, IllegalAccessException {
+        List objectList = new ArrayList();
 
         for (int i = 0; i < jsonArray.length(); i++) {
-            Object newInstance = newInstance(clazz);
             JSONObject jsonObject = jsonArray.getJSONObject(i);
+            Object newInstance = newInstance(newObjectCandidate);
             fillObject(newInstance, jsonObject);
 
-            childs.add(newInstance);
+            objectList.add(newInstance);
         }
 
-        field.set(object, childs);
+        field.set(object, objectList);
     }
 }
