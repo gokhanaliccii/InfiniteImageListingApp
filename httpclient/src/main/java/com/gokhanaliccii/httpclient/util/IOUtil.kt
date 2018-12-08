@@ -1,13 +1,10 @@
 package com.gokhanaliccii.httpclient.util
 
 import java.io.Closeable
-import java.io.InputStream
-import java.io.OutputStream
-
-fun pipe(inputStream: InputStream, outputStream: OutputStream) {
-        inputStream.copyTo(outputStream)
-}
+import java.net.HttpURLConnection
 
 fun closeStreams(vararg streams: Closeable) {
     streams.forEach(Closeable::close)
 }
+
+fun Int.isResponseCodeSucceed() = this in HttpURLConnection.HTTP_OK..HttpURLConnection.HTTP_ACCEPTED

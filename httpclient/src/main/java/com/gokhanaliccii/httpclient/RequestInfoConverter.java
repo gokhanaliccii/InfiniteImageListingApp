@@ -27,6 +27,7 @@ public class RequestInfoConverter {
     private StringBuilder queryParams;
     private Map<String, String> headers;
     private Object body;
+    private boolean isArray;
 
     private RequestInfoConverter() {
         queryParams = emptyParams();
@@ -61,6 +62,7 @@ public class RequestInfoConverter {
         HttpRequestInfo requestInfo = new HttpRequestInfo(getUrl(), method);
         requestInfo.setHeaders(headers);
         requestInfo.setBody(body);
+        requestInfo.setArray(isArray);
         requestInfo.setReturnType(clazz);
 
         return requestInfo;
@@ -105,6 +107,7 @@ public class RequestInfoConverter {
                 determineHeaders(headerSet);
             } else if (annotation instanceof TYPE) {
                 clazz = ((TYPE) annotation).value();
+                isArray = ((TYPE) annotation).isArray();
             }
         }
     }
