@@ -42,6 +42,15 @@ class JsonParserTest {
         assertTrue(expectedFriendName == student?.friend?.name)
     }
 
+    @Test
+    fun shouldParseListObjectCorrectly() {
+        val expectedFriendName = "gokhan"
+        val input = "[{\"name\":\"gokhan\",\"age\":1}]"
+        val student = input.jsonToList(NamedPerson::class.java)
+
+        assertTrue(expectedFriendName == student?.first().name)
+    }
+
     class Friend {
         lateinit var name: String
     }

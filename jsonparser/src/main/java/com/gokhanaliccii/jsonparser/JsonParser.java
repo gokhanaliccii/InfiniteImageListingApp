@@ -8,16 +8,13 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class JsonParser {
 
     <T> T parse(String json, Class<T> clazz) {
         T object = null;
-
-        if (json == null || json.isEmpty()) {
-            return null;
-        }
 
         if (JsonSyntaxKt.hasValidSyntax(json)) {
             object = newInstance(clazz);
@@ -38,9 +35,42 @@ public class JsonParser {
         return object;
     }
 
+    <T> List<T> parseList(String json, Class<T> clazz) {
+        List<T> objectArray = null;
+
+        if (JsonSyntaxKt.isJsonArray(json)) {
+            objectArray = new LinkedList();
+            try {
+                parseJsonArray(json, objectArray, clazz);
+                System.out.println();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        return objectArray;
+    }
+
     private <T> void parseJsonObject(String json, T object) throws JSONException, IllegalAccessException, InstantiationException {
         JSONObject jsonObject = new JSONObject(json);
         fillObject(object, jsonObject);
+    }
+
+    private <T> void parseJsonArray(String json, List list, Class<T> clazz) throws JSONException, IllegalAccessException, InstantiationException {
+        JSONArray jsonArray = new JSONArray(json);
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            Object newInstance = newInstance(clazz);
+            fillObject(newInstance, jsonObject);
+
+            list.add(newInstance);
+        }
     }
 
     private <T> T newInstance(Class<T> clazz) {
