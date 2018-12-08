@@ -2,7 +2,7 @@ package com.gokhanaliccii.httpclient
 
 import java.lang.reflect.Type
 
-interface HttpRequestQueue<T> {
+interface HttpRequestQueue {
 
     fun <T> add(info: HttpRequest<T>, needCache: Boolean)
 

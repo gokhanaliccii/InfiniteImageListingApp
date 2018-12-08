@@ -2,7 +2,7 @@ package com.gokhanaliccii.httpclient;
 
 import java.lang.reflect.*;
 
-public class HttpClientUtils {
+public class TypeUtil {
     static boolean hasUnresolvableType(Type type) {
         if (type instanceof Class<?>) {
             return false;

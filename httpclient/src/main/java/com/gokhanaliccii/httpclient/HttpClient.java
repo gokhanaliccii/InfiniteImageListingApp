@@ -2,7 +2,7 @@ package com.gokhanaliccii.httpclient;
 
 import java.lang.reflect.*;
 
-import static com.gokhanaliccii.httpclient.HttpClientUtils.hasUnresolvableType;
+import static com.gokhanaliccii.httpclient.TypeUtil.hasUnresolvableType;
 
 public class HttpClient {
     private final String baseUrl;
@@ -38,7 +38,7 @@ public class HttpClient {
                                         .compile();
 
                         Type type = getReturnType(method);
-                        Type returnType = HttpClientUtils.getParameterUpperBound(
+                        Type returnType = TypeUtil.getParameterUpperBound(
                                 0, (ParameterizedType) type);
 
                         return new Request<>(queue, requestInfo, returnType);
