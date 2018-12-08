@@ -46,11 +46,6 @@ public class HttpClientTest {
         countDownLatch.await(10, TimeUnit.SECONDS);
     }
 
-    @Test
-    public void should_TestFail() {
-        fail("failed");
-    }
-
     interface UnSplashImageService {
         @GET("/photos")
         @TYPE(value = Photo.class, isArray = true)

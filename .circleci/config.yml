@@ -34,6 +34,7 @@ jobs:
       - run:
           name: Run HttpClient Android Tests
           command: ./gradlew :httpclient:test
-      - run:
-          name: Run HttpClient Lint
-          command: ./gradlew :httpclient:lint	
+      - store_artifacts:
+          path: httpclient/build/reports
+      - store_test_results:
+          path: httpclient/build/test-results 	

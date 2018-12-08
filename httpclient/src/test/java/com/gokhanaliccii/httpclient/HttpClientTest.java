@@ -13,6 +13,7 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.Assert.fail;
 
 public class HttpClientTest {
 
@@ -88,6 +89,13 @@ public class HttpClientTest {
 
         assertThat(o, is("Client-ID XXX"));
     }
+
+
+    @Test
+    public void should_TestFail() {
+        fail("failed");
+    }
+
 
     interface Service {
         @GET("/getMethod")
