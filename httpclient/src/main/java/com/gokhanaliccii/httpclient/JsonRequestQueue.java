@@ -19,13 +19,15 @@ public class JsonRequestQueue implements HttpRequestQueue {
 
     @Override
     public <T> void add(@NotNull HttpRequest<T> request, boolean needCache) {
-        HttpRequestInfo requestInfo = request.getRequestInfo();
-        HttpResult<T> resultListener = request.getResultListener();
 
     }
 
     @Override
     public <T> void add(@NotNull HttpRequest<T> request, boolean needCache, boolean shouldUseRetry) {
+        sendRequest(request);
+    }
+
+    private <T> void sendRequest(@NotNull HttpRequest<T> request) {
         HttpRequestInfo requestInfo = request.getRequestInfo();
 
         try {
