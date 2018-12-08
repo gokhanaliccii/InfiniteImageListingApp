@@ -16,19 +16,17 @@ public class JsonParser {
     <T> T parse(String json, Class<T> clazz) {
         T object = null;
 
-        if (JsonSyntaxKt.hasValidSyntax(json)) {
+        if (JsonSyntaxKt.hasValidObjectSyntax(json)) {
             object = newInstance(clazz);
 
-            if (JsonSyntaxKt.isJsonObject(json)) {
-                try {
-                    parseJsonObject(json, object);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                }
+            try {
+                deserializeJsonToObject(object, new JSONObject(json));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
             }
         }
 
@@ -38,11 +36,10 @@ public class JsonParser {
     <T> List<T> parseList(String json, Class<T> clazz) {
         List<T> objectArray = null;
 
-        if (JsonSyntaxKt.isJsonArray(json)) {
+        if (JsonSyntaxKt.hasValidArraySyntax(json)) {
             objectArray = new LinkedList();
             try {
-                parseJsonArray(json, objectArray, clazz);
-                System.out.println();
+                deserializeJsonToList(new JSONArray(json), objectArray, clazz);
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
@@ -50,27 +47,9 @@ public class JsonParser {
             } catch (InstantiationException e) {
                 e.printStackTrace();
             }
-
         }
 
         return objectArray;
-    }
-
-    private <T> void parseJsonObject(String json, T object) throws JSONException, IllegalAccessException, InstantiationException {
-        JSONObject jsonObject = new JSONObject(json);
-        fillObject(object, jsonObject);
-    }
-
-    private <T> void parseJsonArray(String json, List list, Class<T> clazz) throws JSONException, IllegalAccessException, InstantiationException {
-        JSONArray jsonArray = new JSONArray(json);
-
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-            Object newInstance = newInstance(clazz);
-            fillObject(newInstance, jsonObject);
-
-            list.add(newInstance);
-        }
     }
 
     private <T> T newInstance(Class<T> clazz) {
@@ -85,23 +64,24 @@ public class JsonParser {
         return null;
     }
 
-    private void fillObject(Object object, JSONObject jsonObject) throws JSONException, IllegalAccessException, InstantiationException {
+    private void deserializeJsonToObject(Object object, JSONObject jsonObject) throws JSONException, IllegalAccessException, InstantiationException {
         Field[] declaredFields = object.getClass().getDeclaredFields();
         for (Field field : declaredFields) {
-            if (thatFieldNotExistAtJson(jsonObject, field))
+            if (fieldNameNotExistAtJson(jsonObject, field))
                 continue;
 
-            if (!field.isAccessible()) {
-                field.setAccessible(true);
-            }
+            enableField(field);
 
             if (field.isAnnotationPresent(JsonList.class)) {
                 Class<?> value = field.getAnnotation(JsonList.class).value();
-                fillArray(object, field, value, jsonObject.getJSONArray(field.getName()));
+                List objectList = new ArrayList();
+                JSONArray jsonArray = jsonObject.getJSONArray(field.getName());
+                deserializeJsonToList(jsonArray, objectList, value);
+                field.set(object, objectList);
             } else if (field.isAnnotationPresent(JsonObject.class)) {
                 Class<?> value = field.getAnnotation(JsonObject.class).value();
                 Object newInstance = newInstance(value);
-                fillObject(newInstance, jsonObject.getJSONObject(field.getName()));
+                deserializeJsonToObject(newInstance, jsonObject.getJSONObject(field.getName()));
                 field.set(object, newInstance);
             } else {
                 Object value = jsonObject.get(field.getName());
@@ -110,21 +90,23 @@ public class JsonParser {
         }
     }
 
-    private boolean thatFieldNotExistAtJson(JSONObject jsonObject, Field field) {
-        return !jsonObject.has(field.getName());
-    }
-
-    private void fillArray(Object object, Field field, Class<?> newObjectCandidate, JSONArray jsonArray) throws JSONException, InstantiationException, IllegalAccessException {
-        List objectList = new ArrayList();
-
+    private void deserializeJsonToList(JSONArray jsonArray, List objectList, Class<?> newObjectCandidate) throws JSONException, InstantiationException, IllegalAccessException {
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             Object newInstance = newInstance(newObjectCandidate);
-            fillObject(newInstance, jsonObject);
+            deserializeJsonToObject(newInstance, jsonObject);
 
             objectList.add(newInstance);
         }
+    }
 
-        field.set(object, objectList);
+    private void enableField(Field field) {
+        if (!field.isAccessible()) {
+            field.setAccessible(true);
+        }
+    }
+
+    private boolean fieldNameNotExistAtJson(JSONObject jsonObject, Field field) {
+        return !jsonObject.has(field.getName());
     }
 }
