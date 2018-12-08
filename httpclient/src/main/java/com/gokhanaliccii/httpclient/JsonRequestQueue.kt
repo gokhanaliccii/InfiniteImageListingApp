@@ -51,19 +51,25 @@ class JsonRequestQueue : HttpRequestQueue {
                     val returnType = requestInfo.returnType!!
                     val isReturnTypeArray = requestInfo.isArray!!
 
-                    android.os.Handler(Looper.getMainLooper()).post {
-                        if (isReturnTypeArray) {
-                            request.resultListener.onResponse(rawJson.jsonToList(returnType))
-                        } else {
-                            request.resultListener.onResponse(rawJson.jsonTo(returnType))
+                    if (isReturnTypeArray) {
+                        rawJson.jsonToList(returnType).let {
+                            android.os.Handler(Looper.getMainLooper()).post {
+                                request.resultListener.onResponse(it)
+                            }
+                        }
+                    } else {
+                        rawJson.jsonTo(returnType).let {
+                            android.os.Handler(Looper.getMainLooper()).post {
+                                request.resultListener.onResponse(it)
+                            }
                         }
                     }
+
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
-
     }
 
     private fun putHeaders(requestInfo: HttpRequestQueue.HttpRequestInfo<*>, connection: HttpURLConnection) {
