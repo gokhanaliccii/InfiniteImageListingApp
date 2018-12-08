@@ -37,11 +37,7 @@ public class HttpClient {
                                         .args(args)
                                         .compile();
 
-                        Type type = getReturnType(method);
-                        Type returnType = TypeUtil.getParameterUpperBound(
-                                0, (ParameterizedType) type);
-
-                        return new Request<>(queue, requestInfo, returnType);
+                        return new Request<>(queue, requestInfo);
                     }
                 });
     }

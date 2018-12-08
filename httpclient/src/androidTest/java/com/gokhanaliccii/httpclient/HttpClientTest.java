@@ -1,7 +1,9 @@
 package com.gokhanaliccii.httpclient;
 
 import com.gokhanaliccii.httpclient.annotation.method.GET;
+import com.gokhanaliccii.httpclient.annotation.method.TYPE;
 import com.gokhanaliccii.httpclient.annotation.url.Query;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Test;
 
 import java.util.List;
@@ -13,13 +15,20 @@ public class HttpClientTest {
 
     @Test
     public void should_() throws InterruptedException {
-        HttpClient httpClient = HttpClient.with(new JsonRequestQueue(), BASE_URL);
+        EasyHttpClient httpClient = EasyHttpClient.with(new JsonRequestQueue(), BASE_URL);
         UnSplashImageService imageService = httpClient.create(UnSplashImageService.class);
 
-        imageService.getImages(CLIENT_ID).enqueue(new HttpRequestQueue.HttpResult<List<Photo>>() {
+        imageService.getImages(CLIENT_ID).enqueue(new HttpRequestQueue.HttpResult<Photo>() {
+
             @Override
-            public void onResponse(List<Photo> response) {
-                System.out.println();
+            public void onResponse(Photo response) {
+                System.out.println("object");
+            }
+
+            @Override
+            public void onResponse(@NotNull List<? extends Photo> response) {
+                System.out.println("array");
+
             }
         }, false, false);
 
@@ -27,16 +36,9 @@ public class HttpClientTest {
     }
 
     interface UnSplashImageService {
-
         @GET("/photos")
-        Request<List<Photo>> getImages(@Query("client_id") String clientId);
+        @TYPE(value = Photo.class, isArray = true)
+        Request<Photo> getImages(@Query("client_id") String clientId);
     }
-
-    class Photo {
-        String id;
-        int width;
-        int height;
-    }
-
 
 }
