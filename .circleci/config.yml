@@ -28,3 +28,13 @@ jobs:
           destination: reports
       - store_test_results:
           path: app/build/test-results
+      - run:
+          name: Run HttpClient Unit Tests
+          command: ./gradlew :httpclient:testDebugUnitTest
+      - run:
+          name: Run HttpClient Android Tests
+          command: ./gradlew :httpclient:test
+      - store_artifacts:
+          path: httpclient/build/reports
+      - store_test_results:
+          path: httpclient/build/test-results 	

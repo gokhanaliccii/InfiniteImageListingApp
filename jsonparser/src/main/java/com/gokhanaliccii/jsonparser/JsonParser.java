@@ -13,7 +13,7 @@ import java.util.List;
 
 public class JsonParser {
 
-    <T> T parse(String json, Class<T> clazz) {
+    public <T> T parse(String json, Class<T> clazz) {
         T object = null;
 
         if (JsonSyntaxKt.hasValidObjectSyntax(json)) {
@@ -33,7 +33,7 @@ public class JsonParser {
         return object;
     }
 
-    <T> List<T> parseList(String json, Class<T> clazz) {
+    public <T> List<T> parseList(String json, Class<T> clazz) {
         List<T> objectArray = null;
 
         if (JsonSyntaxKt.hasValidArraySyntax(json)) {
