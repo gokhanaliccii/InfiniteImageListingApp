@@ -1,6 +1,6 @@
 package com.gokhanaliccii.httpclient;
 
-import com.gokhanaliccii.httpclient.util.IOUtil;
+import com.gokhanaliccii.httpclient.util.IOUtilKt;
 import com.gokhanaliccii.jsonparser.JsonParser;
 import org.jetbrains.annotations.NotNull;
 
@@ -41,8 +41,8 @@ public class JsonRequestQueue implements HttpRequestQueue {
             if (isResponseSucceed(responseCode)) {
                 InputStream inputStream = connection.getInputStream();
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                IOUtil.pipe(inputStream, outputStream);
-                IOUtil.closeStreams(inputStream, outputStream);
+                IOUtilKt.pipe(inputStream, outputStream);
+                IOUtilKt.closeStreams(inputStream, outputStream);
 
                 String json = outputStream.toString();
 
