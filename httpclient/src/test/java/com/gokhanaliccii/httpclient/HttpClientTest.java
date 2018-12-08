@@ -29,6 +29,18 @@ public class HttpClientTest {
         assertThat(info.getMethod(), is(Method.GET));
     }
 
+    @Test
+    public void should_GetUrlCorrectly() {
+        final String expectedUrl = BASE_URL + "/getMethod";
+        Service service = HttpClient.with(queue, BASE_URL).create(Service.class);
+
+        Request<String> call = service.getMethod();
+        HttpRequestQueue.HttpRequestInfo info = call.getRequestInfo();
+
+        assertThat(info.getUrl(), is(expectedUrl));
+    }
+
+
     interface Service {
         @GET("/getMethod")
         Request<String> getMethod();
