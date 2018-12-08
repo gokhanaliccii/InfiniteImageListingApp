@@ -2,6 +2,7 @@ package com.gokhanaliccii.httpclient;
 
 import com.gokhanaliccii.httpclient.HttpRequestQueue.HttpRequestInfo.Method;
 import com.gokhanaliccii.httpclient.annotation.method.GET;
+import com.gokhanaliccii.httpclient.annotation.url.Path;
 import com.gokhanaliccii.httpclient.annotation.url.Query;
 import com.gokhanaliccii.httpclient.util.MockHttpRequestQueue;
 import org.junit.Before;
@@ -54,11 +55,25 @@ public class HttpClientTest {
         assertThat(info.getUrl(), is(equalTo(expectedUrl)));
     }
 
+    @Test
+    public void should_PathCorrect() {
+        final String expectedUrl = BASE_URL + "/getMethod" + "/sampleA" + "/sampleB";
+        Service service =
+                HttpClient.with(queue, BASE_URL).create(Service.class);
+
+        Request<String> call = service.getMethodWithPath("sampleA", "sampleB");
+        HttpRequestQueue.HttpRequestInfo info = call.getRequestInfo();
+        assertThat(info.getUrl(), is(equalTo(expectedUrl)));
+    }
+
     interface Service {
         @GET("/getMethod")
         Request<String> getMethod();
 
         @GET("/getMethodWithParams")
         Request<String> getMethodWithQueryParam(@Query("Name1") String name);
+
+        @GET("/getMethod/{a}/{b}")
+        Request<String> getMethodWithPath(@Path("a") String a, @Path("b") String b);
     }
 }
