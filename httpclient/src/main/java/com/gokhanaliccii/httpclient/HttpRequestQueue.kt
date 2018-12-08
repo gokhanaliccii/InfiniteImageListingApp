@@ -1,14 +1,10 @@
 package com.gokhanaliccii.httpclient
 
-import java.lang.reflect.Type
-
 interface HttpRequestQueue {
 
     fun <T> add(info: HttpRequest<T>, needCache: Boolean)
 
     fun <T> add(info: HttpRequest<T>, needCache: Boolean, shouldUseRetry: Boolean)
-
-    fun remove(tag: String)
 
     fun removeAll()
 
@@ -16,10 +12,13 @@ interface HttpRequestQueue {
 
     fun stop()
 
-    class HttpRequest<T>(val requestInfo: HttpRequestInfo, val type: Type, val resultListener: HttpResult<T>)
+    class HttpRequest<T>(val requestInfo: HttpRequestInfo<T>, val resultListener: HttpResult<T>)
 
-    class HttpRequestInfo(val url: String, val method: Method) {
+    class HttpRequestInfo<T>(val url: String, val method: Method) {
         var body: Any? = null
+        var returnType: Class<T>? = null
+        var isArray: Boolean? = false
+
         lateinit var headers: Map<String, String>
 
         enum class Method {

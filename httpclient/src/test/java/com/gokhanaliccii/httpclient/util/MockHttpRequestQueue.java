@@ -16,11 +16,6 @@ public class MockHttpRequestQueue implements HttpRequestQueue {
     }
 
     @Override
-    public void remove(@NotNull String tag) {
-
-    }
-
-    @Override
     public void removeAll() {
 
     }

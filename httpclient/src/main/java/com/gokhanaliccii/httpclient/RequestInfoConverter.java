@@ -23,7 +23,7 @@ public class RequestInfoConverter {
     private String path;
     private Map<String, String> pathValues;
     private HttpRequestInfo.Method method;
-    private String tag;
+    private Class<?> clazz;
     private StringBuilder queryParams;
     private Map<String, String> headers;
     private Object body;
@@ -61,6 +61,7 @@ public class RequestInfoConverter {
         HttpRequestInfo requestInfo = new HttpRequestInfo(getUrl(), method);
         requestInfo.setHeaders(headers);
         requestInfo.setBody(body);
+        requestInfo.setReturnType(clazz);
 
         return requestInfo;
     }
@@ -72,7 +73,7 @@ public class RequestInfoConverter {
 
             if (_path.matches("\\{(.*)\\}")) {
                 String key = _path.replaceAll("\\{(.*)\\}", "$1");
-                path = path.replaceAll("\\{("+key+")\\}", pathValues.get(key));
+                path = path.replaceAll("\\{(" + key + ")\\}", pathValues.get(key));
             }
         }
     }
@@ -86,22 +87,24 @@ public class RequestInfoConverter {
     }
 
     private StringBuilder emptyParams() {
-        return new StringBuilder("");
+        return new StringBuilder();
     }
 
     private void determineFromPrototype() {
         Annotation[] annotations = javaMethod.getAnnotations();
 
-        for(Annotation annotation : annotations) {
+        for (Annotation annotation : annotations) {
             if (annotation instanceof GET) {
                 method = HttpRequestInfo.Method.GET;
                 path = ((GET) annotation).value();
-            } else if(annotation instanceof POST) {
+            } else if (annotation instanceof POST) {
                 method = HttpRequestInfo.Method.POST;
                 path = ((POST) annotation).value();
-            } else if(annotation instanceof Header) {
+            } else if (annotation instanceof Header) {
                 String[] headerSet = ((Header) annotation).value();
                 determineHeaders(headerSet);
+            } else if (annotation instanceof TYPE) {
+                clazz = ((TYPE) annotation).value();
             }
         }
     }
@@ -121,7 +124,7 @@ public class RequestInfoConverter {
         }
 
         for (String header : headerSet) {
-            String[] nameValuePair = header.split(":\\s");
+            String[] nameValuePair = header.split(":");
             if (nameValuePair.length < 2) {
                 throw new IllegalArgumentException(
                         "Wrong header format, expected format is <name>: <value>");
@@ -162,21 +165,6 @@ public class RequestInfoConverter {
         }
     }
 
-    public Object newInstance(String className, Object...args) throws Exception {
-        Class<?> clazz = Class.forName(className);
-        if(args == null || args.length == 0) {
-            return clazz.newInstance();
-        }
-
-        List<Class<?>> argTypes = new ArrayList<>();
-        for(Object object : args) {
-            argTypes.add(object.getClass());
-        }
-        Constructor<?> explicitConstructor = clazz.getConstructor(
-                argTypes.toArray(new Class[argTypes.size()]));
-        return explicitConstructor.newInstance(args);
-    }
-
     private boolean shouldSkip(Object value) {
         return value == null;
     }
@@ -206,5 +194,4 @@ public class RequestInfoConverter {
         }
         return value;
     }
-
 }

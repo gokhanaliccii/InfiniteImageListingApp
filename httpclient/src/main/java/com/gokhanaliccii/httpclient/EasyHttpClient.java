@@ -50,22 +50,5 @@ public class EasyHttpClient {
         if (service.getInterfaces().length > 0) {
             throw new IllegalArgumentException("Service must not extend other interfaces.");
         }
-
-    }
-
-    private Type getReturnType(Method javaMethod) {
-        Type returnType = javaMethod.getGenericReturnType();
-
-        if (hasUnresolvableType(returnType)) {
-            throw new RuntimeException(
-                    "Method return type must not include a type variable or wildcard: "
-                            + returnType);
-        }
-
-        if (returnType == Void.class) {
-            throw new RuntimeException("Service methods cannot return void");
-        }
-
-        return returnType;
     }
 }

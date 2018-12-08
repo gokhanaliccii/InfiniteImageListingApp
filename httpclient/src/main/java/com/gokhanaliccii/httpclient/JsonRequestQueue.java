@@ -1,10 +1,15 @@
 package com.gokhanaliccii.httpclient;
 
 import com.gokhanaliccii.httpclient.util.IOUtil;
+import com.gokhanaliccii.jsonparser.JsonParser;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.*;
-import java.net.*;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.util.List;
 import java.util.Map;
 
 import static java.net.HttpURLConnection.HTTP_ACCEPTED;
@@ -30,22 +35,28 @@ public class JsonRequestQueue implements HttpRequestQueue {
             putHttpMethod(requestInfo, connection);
 
             int responseCode = connection.getResponseCode();
-            InputStream inputStream;
 
             if (isResponseSucceed(responseCode)) {
-                inputStream = connection.getInputStream();
-
+                InputStream inputStream = connection.getInputStream();
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 IOUtil.pipe(inputStream, outputStream);
                 IOUtil.closeStreams(inputStream, outputStream);
 
+                String json = outputStream.toString();
+
+                if (requestInfo.isArray()) {
+                    List<T> list = new JsonParser().parseList(json, requestInfo.getReturnType());
+                    request.getResultListener().onResponse(list);
+                } else {
+                    T object = (T) new JsonParser().parse(json, requestInfo.getReturnType());
+                    request.getResultListener().onResponse(object);
+                }
             }
 
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     private boolean isResponseSucceed(int responseCode) {

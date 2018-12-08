@@ -1,9 +1,8 @@
 package com.gokhanaliccii.httpclient
 
 import com.gokhanaliccii.httpclient.HttpRequestQueue.HttpRequestInfo
-import java.lang.reflect.Type
 
-class Request<T>(val requestQueue: HttpRequestQueue, val requestInfo: HttpRequestInfo, val type: Type) {
+class Request<T>(val requestQueue: HttpRequestQueue, val requestInfo: HttpRequestInfo<T>) {
     private var tempData: T? = null
     private var latency: Long = 1000
 
@@ -17,7 +16,7 @@ class Request<T>(val requestQueue: HttpRequestQueue, val requestInfo: HttpReques
     }
 
     private fun getHttpRequest(httpResult: HttpRequestQueue.HttpResult<T>) =
-        HttpRequestQueue.HttpRequest(requestInfo, type, httpResult)
+        HttpRequestQueue.HttpRequest(requestInfo, httpResult)
 
     private fun send(httpResult: HttpRequestQueue.HttpResult<T>) {
         httpResult.onResponse(tempData!!)
