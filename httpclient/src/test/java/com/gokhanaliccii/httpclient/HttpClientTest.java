@@ -90,13 +90,6 @@ public class HttpClientTest {
         assertThat(o, is("Client-ID XXX"));
     }
 
-
-    @Test
-    public void should_TestFail() {
-        fail("failed");
-    }
-
-
     interface Service {
         @GET("/getMethod")
         Request<String> getMethod();
