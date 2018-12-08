@@ -1,4 +1,4 @@
-package com.gokhanaliccii.infiniteimagelisting.common
+package com.gokhanaliccii.infiniteimagelisting.common.extension
 
-class RecyclerViewExtension {
-}
+
+
