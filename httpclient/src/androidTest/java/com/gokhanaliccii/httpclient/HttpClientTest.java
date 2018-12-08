@@ -3,10 +3,18 @@ package com.gokhanaliccii.httpclient;
 import com.gokhanaliccii.httpclient.annotation.method.GET;
 import com.gokhanaliccii.httpclient.annotation.method.TYPE;
 import com.gokhanaliccii.httpclient.annotation.url.Query;
+import org.hamcrest.core.IsNull;
 import org.jetbrains.annotations.NotNull;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
+import static org.hamcrest.core.IsNull.notNullValue;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class HttpClientTest {
 
@@ -14,25 +22,27 @@ public class HttpClientTest {
     static final String CLIENT_ID = "f7af843e895c61a1f3434e6823743a08fb08ace46e203353f539a30eeb2a67e7";
 
     @Test
-    public void should_() throws InterruptedException {
+    public void should_FetchPhotosCorrectly() throws InterruptedException {
         EasyHttpClient httpClient = EasyHttpClient.with(new JsonRequestQueue(), BASE_URL);
         UnSplashImageService imageService = httpClient.create(UnSplashImageService.class);
 
-        imageService.getImages(CLIENT_ID).enqueue(new HttpRequestQueue.HttpResult<Photo>() {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
 
+        imageService.getImages(CLIENT_ID).enqueue(new HttpRequestQueue.HttpResult<Photo>() {
             @Override
             public void onResponse(Photo response) {
-                System.out.println("object");
+                assertThat(response, notNullValue());
+                countDownLatch.countDown();
             }
 
             @Override
             public void onResponse(@NotNull List<? extends Photo> response) {
-                System.out.println("array");
-
+                assertTrue(response.size() > 0);
+                countDownLatch.countDown();
             }
         }, false, false);
 
-        Thread.sleep(100 * 1000);
+        countDownLatch.await(10, TimeUnit.SECONDS);
     }
 
     interface UnSplashImageService {
