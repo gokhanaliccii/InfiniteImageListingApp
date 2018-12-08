@@ -1,5 +1,6 @@
 package com.gokhanaliccii.httpclient;
 
+import com.gokhanaliccii.httpclient.util.IOUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
@@ -30,26 +31,25 @@ public class JsonRequestQueue implements HttpRequestQueue {
 
             int responseCode = connection.getResponseCode();
             InputStream inputStream;
-            if (HTTP_OK <= responseCode && HTTP_ACCEPTED <= 299) {
+
+            if (isResponseSucceed(responseCode)) {
                 inputStream = connection.getInputStream();
-            } else {
-                inputStream = connection.getErrorStream();
+
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                IOUtil.pipe(inputStream, outputStream);
+                IOUtil.closeStreams(inputStream, outputStream);
+
             }
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
-            StringBuilder response = new StringBuilder();
-
-            String currentLine;
-            while ((currentLine = in.readLine()) != null)
-                response.append(currentLine);
-
-            in.close();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+    }
 
+    private boolean isResponseSucceed(int responseCode) {
+        return HTTP_OK <= responseCode && responseCode <= HTTP_ACCEPTED;
     }
 
     private void putHttpMethod(HttpRequestInfo requestInfo, HttpURLConnection connection) throws ProtocolException {
