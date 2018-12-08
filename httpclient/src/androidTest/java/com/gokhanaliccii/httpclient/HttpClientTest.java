@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class HttpClientTest {
 
@@ -43,6 +44,11 @@ public class HttpClientTest {
         }, false, false);
 
         countDownLatch.await(10, TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void should_TestFail() {
+        fail("failed");
     }
 
     interface UnSplashImageService {
