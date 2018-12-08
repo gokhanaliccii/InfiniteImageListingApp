@@ -28,3 +28,7 @@ jobs:
           destination: reports
       - store_test_results:
           path: app/build/test-results
+      -run:
+          name: Run HttpClient Tests
+          command: ./gradlew :httpclient:testDebudUnitTest
+      	
