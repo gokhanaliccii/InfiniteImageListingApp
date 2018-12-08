@@ -28,6 +28,8 @@ interface HttpRequestQueue {
     }
 
     interface HttpResult<T> {
-        fun onResponse(response: T)
+        fun onResponse(response: T) {}
+
+        fun onResponse(response: List<T>) {}
     }
 }

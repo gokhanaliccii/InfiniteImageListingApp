@@ -5,16 +5,15 @@ import com.gokhanaliccii.httpclient.annotation.entity.Body;
 import com.gokhanaliccii.httpclient.annotation.header.Header;
 import com.gokhanaliccii.httpclient.annotation.method.GET;
 import com.gokhanaliccii.httpclient.annotation.method.POST;
+import com.gokhanaliccii.httpclient.annotation.method.TYPE;
 import com.gokhanaliccii.httpclient.annotation.url.Path;
 import com.gokhanaliccii.httpclient.annotation.url.Query;
+
 import java.io.UnsupportedEncodingException;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class RequestInfoConverter {

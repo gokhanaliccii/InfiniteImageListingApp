@@ -1,20 +1,20 @@
 package com.gokhanaliccii.httpclient;
 
-import java.lang.reflect.*;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
-import static com.gokhanaliccii.httpclient.TypeUtil.hasUnresolvableType;
-
-public class HttpClient {
+public class EasyHttpClient {
     private final String baseUrl;
     private final HttpRequestQueue queue;
 
-    private HttpClient(HttpRequestQueue queue, String baseUrl) {
+    private EasyHttpClient(HttpRequestQueue queue, String baseUrl) {
         this.queue = queue;
         this.baseUrl = baseUrl;
     }
 
-    public static HttpClient with(HttpRequestQueue queue, String baseUrl) {
-        return new HttpClient(queue, baseUrl);
+    public static EasyHttpClient with(HttpRequestQueue queue, String baseUrl) {
+        return new EasyHttpClient(queue, baseUrl);
     }
 
     public <T> T create(final Class<T> service) {
