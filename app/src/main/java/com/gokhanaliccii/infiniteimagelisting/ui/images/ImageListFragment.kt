@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.gokhanaliccii.infiniteimagelisting.R
 import com.gokhanaliccii.infiniteimagelisting.common.recyclerview.EndlessRecyclerViewScrollListener
-import com.gokhanaliccii.infiniteimagelisting.datasource.image.Image
 import com.gokhanaliccii.infiniteimagelisting.ui.images.adapter.ImageListAdapter
 import com.gokhanaliccii.infiniteimagelisting.widget.LoadableRecyclerView
 import kotlinx.android.synthetic.main.view_loadable_recyclerview.*

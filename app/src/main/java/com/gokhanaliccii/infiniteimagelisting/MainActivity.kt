@@ -7,8 +7,8 @@ import com.gokhanaliccii.httpclient.EasyHttpClient
 import com.gokhanaliccii.httpclient.HttpRequestQueue
 import com.gokhanaliccii.httpclient.JsonRequestQueue
 import com.gokhanaliccii.infiniteimagelisting.common.recyclerview.EndlessRecyclerViewScrollListener
-import com.gokhanaliccii.infiniteimagelisting.datasource.image.Image
-import com.gokhanaliccii.infiniteimagelisting.datasource.image.ImageService
+import com.gokhanaliccii.infiniteimagelisting.datasource.image.remote.Image
+import com.gokhanaliccii.infiniteimagelisting.datasource.image.remote.ImageService
 import com.gokhanaliccii.infiniteimagelisting.ui.images.adapter.ImageListAdapter
 import com.gokhanaliccii.infiniteimagelisting.widget.LoadableRecyclerView
 import kotlinx.android.synthetic.main.view_loadable_recyclerview.*

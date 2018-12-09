@@ -1,4 +1,4 @@
-package com.gokhanaliccii.infiniteimagelisting.datasource.image
+package com.gokhanaliccii.infiniteimagelisting.datasource.image.remote
 
 import com.gokhanaliccii.httpclient.Request
 import com.gokhanaliccii.httpclient.annotation.method.GET

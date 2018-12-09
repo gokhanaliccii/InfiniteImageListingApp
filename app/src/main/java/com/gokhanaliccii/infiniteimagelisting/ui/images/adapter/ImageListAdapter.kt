@@ -6,10 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
 import com.gokhanaliccii.infiniteimagelisting.R
 import com.gokhanaliccii.infiniteimagelisting.common.extension.loadImage
-import com.gokhanaliccii.infiniteimagelisting.datasource.image.Image
+import com.gokhanaliccii.infiniteimagelisting.datasource.image.remote.Image
 
 class ImageListAdapter(private var images: List<Image>) : Adapter<ImageListAdapter.ImageViewHolder>() {
 
