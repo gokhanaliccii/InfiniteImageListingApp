@@ -1,5 +1,7 @@
 package com.gokhanaliccii.httpclient
 
+import java.lang.Exception
+
 interface HttpRequestQueue {
 
     fun <T> add(info: HttpRequest<T>, needCache: Boolean)
@@ -30,5 +32,7 @@ interface HttpRequestQueue {
         fun onResponse(response: T) {}
 
         fun onResponse(response: List<T>) {}
+
+        fun onRequestFailed(exception: Exception) {}
     }
 }

@@ -9,6 +9,8 @@ interface ImageDataSource {
     interface ImageLoadCallBack {
         fun onImagesLoaded(images: List<ImageUIModel>)
 
-        fun imagesNotExist(){}
+        fun onImagesLoadFailed() {}
+
+        fun imagesNotExist() {}
     }
 }

@@ -6,23 +6,30 @@ import com.gokhanaliccii.infiniteimagelisting.InfiniteImageListingApp
 import com.gokhanaliccii.infiniteimagelisting.common.cache.KeyValueList
 import com.gokhanaliccii.infiniteimagelisting.datasource.image.ImageDataSource
 import com.gokhanaliccii.infiniteimagelisting.datasource.image.ImageUIModel
+import java.lang.Exception
 
-class RemoteImageDataSource(private val imageService: ImageService,
-                            private val store: KeyValueList<Int, ImageUIModel>) : ImageDataSource {
+class RemoteImageDataSource(
+    private val imageService: ImageService,
+    private val store: KeyValueList<Int, ImageUIModel>
+) : ImageDataSource {
 
     override fun loadImages(count: Int, page: Int, loadCallBack: ImageDataSource.ImageLoadCallBack) {
         imageService.getImages(BuildConfig.UNSPLASH_APIKEY, page)
-                .enqueue(object : HttpRequestQueue.HttpResult<Image> {
-                    override fun onResponse(images: List<Image>) {
-                        val uiModels = images.map { it.toIUModel() }
-                        store.storeItems(page, uiModels)
-                        loadCallBack.onImagesLoaded(uiModels)
-                    }
+            .enqueue(object : HttpRequestQueue.HttpResult<Image> {
+                override fun onResponse(images: List<Image>) {
+                    val uiModels = images.map { it.toIUModel() }
+                    store.storeItems(page, uiModels)
+                    loadCallBack.onImagesLoaded(uiModels)
+                }
 
-                    override fun onResponse(image: Image) {
-                        loadCallBack.onImagesLoaded(listOf(image.toIUModel()))
-                    }
-                }, false, false)
+                override fun onResponse(image: Image) {
+                    loadCallBack.onImagesLoaded(listOf(image.toIUModel()))
+                }
+
+                override fun onRequestFailed(exception: Exception) {
+                    loadCallBack.onImagesLoadFailed()
+                }
+            }, false, false)
     }
 
     override fun stopOnGoingProcess() {

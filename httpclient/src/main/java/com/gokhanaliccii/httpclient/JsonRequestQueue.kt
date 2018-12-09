@@ -73,6 +73,7 @@ class JsonRequestQueue : HttpRequestQueue {
 
                 }
             } catch (e: Exception) {
+                request.resultListener.onRequestFailed(e)
                 e.printStackTrace()
             }
         }
