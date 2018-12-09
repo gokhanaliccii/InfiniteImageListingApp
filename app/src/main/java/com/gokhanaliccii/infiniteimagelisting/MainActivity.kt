@@ -3,8 +3,12 @@ package com.gokhanaliccii.infiniteimagelisting
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
+import com.gokhanaliccii.httpclient.EasyHttpClient
+import com.gokhanaliccii.httpclient.HttpRequestQueue
+import com.gokhanaliccii.httpclient.JsonRequestQueue
 import com.gokhanaliccii.infiniteimagelisting.common.recyclerview.EndlessRecyclerViewScrollListener
 import com.gokhanaliccii.infiniteimagelisting.datasource.image.Image
+import com.gokhanaliccii.infiniteimagelisting.datasource.image.ImageService
 import com.gokhanaliccii.infiniteimagelisting.ui.images.adapter.ImageListAdapter
 import com.gokhanaliccii.infiniteimagelisting.widget.LoadableRecyclerView
 import kotlinx.android.synthetic.main.view_loadable_recyclerview.*
@@ -18,9 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        val images = listOf(Image("a1"), Image("a2"), Image("a3"), Image("a4"), Image("a5"), Image("a6"), Image("a7"))
-        val imageListAdapter = ImageListAdapter(images)
-
+        val imageListAdapter = ImageListAdapter(emptyList())
         val layoutManager = GridLayoutManager(this, 2)
         val endlessRecyclerViewScrollListener = EndlessRecyclerViewScrollListener(layoutManager) {
             loadableRecycler.showBottomLoadingProgress()
@@ -31,6 +33,24 @@ class MainActivity : AppCompatActivity() {
             recyclerview.layoutManager = layoutManager
             recyclerview.addOnScrollListener(endlessRecyclerViewScrollListener)
         }
+
+        val BASE_URL = "https://api.unsplash.com"
+        val CLIENT_ID = "f7af843e895c61a1f3434e6823743a08fb08ace46e203353f539a30eeb2a67e7"
+
+
+        val easyHttpClient = EasyHttpClient.with(JsonRequestQueue(), BASE_URL)
+        val imageService = easyHttpClient.create(ImageService::class.java)
+
+        imageService.getImages(CLIENT_ID).enqueue(object : HttpRequestQueue.HttpResult<Image> {
+            override fun onResponse(response: List<Image>) {
+
+                imageListAdapter.notify2(response)
+            }
+
+            override fun onResponse(response: Image) {
+            }
+        }, false, false)
+
 
     }
 }

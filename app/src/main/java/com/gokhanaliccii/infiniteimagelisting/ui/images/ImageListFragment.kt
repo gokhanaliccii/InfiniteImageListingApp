@@ -34,7 +34,7 @@ class ImageListFragment : Fragment() {
     private fun initUi(view: View) {
         loadableRecycler = view.findViewById(R.id.recyclerview_image)
 
-        val imageListAdapter = ImageListAdapter(dummyImageList())
+        val imageListAdapter = ImageListAdapter(emptyList())
         val layoutManager = GridLayoutManager(context, COLUMN_COUNT)
         val endlessRecyclerViewScrollListener = EndlessRecyclerViewScrollListener(layoutManager) {
             loadableRecycler.showBottomLoadingProgress()
@@ -47,8 +47,5 @@ class ImageListFragment : Fragment() {
         }
     }
 
-    private fun dummyImageList() = listOf(
-        Image("a1"), Image("a2"), Image("a3"),
-        Image("a4"), Image("a5"), Image("a6"), Image("a7")
-    )
+
 }
