@@ -10,9 +10,8 @@ import com.gokhanaliccii.infiniteimagelisting.R
 
 class LoadableRecyclerView(context: Context?, attrs: AttributeSet?) : FrameLayout(context, attrs) {
 
-    val bottomLoadingProgress: View
     val recyclerView: RecyclerView
-
+    val bottomLoadingProgress: View
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_loadable_recyclerview, this, true)
