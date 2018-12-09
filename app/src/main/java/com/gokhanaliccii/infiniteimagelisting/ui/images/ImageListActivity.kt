@@ -11,8 +11,10 @@ class ImageListActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
-        supportFragmentManager.beginTransaction()
-            .add(R.id.content_frame, ImageListFragment.newInstance())
-            .commit()
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                    .add(R.id.content_frame, ImageListFragment.newInstance())
+                    .commit()
+        }
     }
 }
