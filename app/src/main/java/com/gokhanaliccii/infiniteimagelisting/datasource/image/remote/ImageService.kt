@@ -8,5 +8,6 @@ import com.gokhanaliccii.httpclient.annotation.url.Query
 interface ImageService {
     @GET("/photos")
     @TYPE(value = Image::class, isArray = true)
-    fun getImages(@Query("client_id") clientId: String): Request<Image>
+    fun getImages(@Query("client_id") clientId: String,
+                  @Query("page") page: Int): Request<Image>
 }

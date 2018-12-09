@@ -27,4 +27,8 @@ class LoadableRecyclerView(context: Context?, attrs: AttributeSet?) : FrameLayou
         bottomLoadingProgress.visibility = View.VISIBLE
     }
 
+    fun hideBottomLoadingProgress() {
+        bottomLoadingProgress.visibility = View.GONE
+    }
+
 }

@@ -1,10 +1,10 @@
-package com.gokhanaliccii.infiniteimagelisting
+package com.gokhanaliccii.infiniteimagelisting.ui.images
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.gokhanaliccii.infiniteimagelisting.ui.images.ImageListFragment
+import com.gokhanaliccii.infiniteimagelisting.R
 
-class MainActivity : AppCompatActivity() {
+class ImageListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

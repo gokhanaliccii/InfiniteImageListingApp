@@ -23,7 +23,9 @@ class ImageListFragment : Fragment(), ImageListContract.View {
 
     private lateinit var loadableRecycler: LoadableRecyclerView
     private lateinit var presenter: ImageListPresenter
-    private val imageListAdapter by lazy { ImageListAdapter(emptyList()) }
+    private lateinit var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener
+    private val imageListAdapter by lazy { ImageListAdapter(mutableListOf()) }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +44,6 @@ class ImageListFragment : Fragment(), ImageListContract.View {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         presenter.loadImages()
     }
 
@@ -50,10 +51,10 @@ class ImageListFragment : Fragment(), ImageListContract.View {
         loadableRecycler = view.findViewById(R.id.recyclerview_image)
 
         val layoutManager = GridLayoutManager(context, COLUMN_COUNT)
-        val endlessRecyclerViewScrollListener = EndlessRecyclerViewScrollListener(layoutManager) {
+        endlessRecyclerViewScrollListener = EndlessRecyclerViewScrollListener(layoutManager) {
+            presenter.loadMoreImages()
             loadableRecycler.showBottomLoadingProgress()
         }
-
 
         loadableRecycler.initRecyclerView {
             recyclerview.adapter = imageListAdapter
@@ -66,11 +67,16 @@ class ImageListFragment : Fragment(), ImageListContract.View {
 
     }
 
-    override fun hideImageLoadimgProgess() {
+    override fun hideImageLoadingProgress() {
 
     }
 
+    override fun hideLoadMoreProggress() {
+        endlessRecyclerViewScrollListener.newDataLoaded()
+        loadableRecycler.hideBottomLoadingProgress()
+    }
+
     override fun imagesLoaded(images: List<ImageUIModel>) {
-        imageListAdapter.notify2(images)
+        imageListAdapter.notifyNewImages(images)
     }
 }

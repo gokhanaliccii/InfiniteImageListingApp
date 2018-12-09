@@ -7,9 +7,12 @@ interface ImageListContract {
     interface View {
         fun showImagesLoadingProgress()
 
-        fun hideImageLoadimgProgess()
+        fun hideImageLoadingProgress()
+
+        fun hideLoadMoreProggress()
 
         fun imagesLoaded(images: List<ImageUIModel>)
+
     }
 
     interface Presenter {

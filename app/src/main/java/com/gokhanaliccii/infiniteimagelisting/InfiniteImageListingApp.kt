@@ -9,6 +9,7 @@ import com.gokhanaliccii.infiniteimagelisting.datasource.image.local.LocalImageD
 import com.gokhanaliccii.infiniteimagelisting.datasource.image.remote.ImageService
 import com.gokhanaliccii.infiniteimagelisting.datasource.image.remote.RemoteImageDataSource
 
+
 class InfiniteImageListingApp : Application() {
 
     private lateinit var imageDataSource: ImageDataSource

@@ -9,16 +9,11 @@ import android.widget.ImageView
 import com.gokhanaliccii.infiniteimagelisting.R
 import com.gokhanaliccii.infiniteimagelisting.common.extension.loadImage
 import com.gokhanaliccii.infiniteimagelisting.datasource.image.ImageUIModel
-import com.gokhanaliccii.infiniteimagelisting.datasource.image.remote.Image
+import com.gokhanaliccii.infiniteimagelisting.ui.images.adapter.ImageListAdapter.ImageViewHolder
 
-class ImageListAdapter(private var images: List<ImageUIModel>) : Adapter<ImageListAdapter.ImageViewHolder>() {
+class ImageListAdapter(private var images: MutableList<ImageUIModel>) : Adapter<ImageViewHolder>() {
 
-    fun notify2(images: List<ImageUIModel>){
-        this.images=images
-        notifyDataSetChanged()
-    }
-
-    override fun onCreateViewHolder(vg: ViewGroup, p1: Int): ImageViewHolder {
+    override fun onCreateViewHolder(vg: ViewGroup, index: Int): ImageViewHolder {
         val inflater = LayoutInflater.from(vg.context)
         val view = inflater.inflate(R.layout.list_item_image, vg, false)
         return ImageViewHolder(view)
@@ -30,7 +25,12 @@ class ImageListAdapter(private var images: List<ImageUIModel>) : Adapter<ImageLi
         viewHolder.imageView.loadImage(images[index].imageUrl)
     }
 
-    inner class ImageViewHolder(item: View) : RecyclerView.ViewHolder(item) {
+    fun notifyNewImages(images: List<ImageUIModel>) {
+        this.images.addAll(images)
+        notifyDataSetChanged()
+    }
+
+    class ImageViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         val imageView: ImageView = item as ImageView
     }
 }
