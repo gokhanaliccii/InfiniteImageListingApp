@@ -5,6 +5,7 @@ import com.gokhanaliccii.httpclient.EasyHttpClient
 import com.gokhanaliccii.httpclient.JsonRequestQueue
 import com.gokhanaliccii.infiniteimagelisting.datasource.image.ImageDataSource
 import com.gokhanaliccii.infiniteimagelisting.datasource.image.ImageRepository
+import com.gokhanaliccii.infiniteimagelisting.datasource.image.ImageUIModelStore
 import com.gokhanaliccii.infiniteimagelisting.datasource.image.local.LocalImageDataSource
 import com.gokhanaliccii.infiniteimagelisting.datasource.image.remote.ImageService
 import com.gokhanaliccii.infiniteimagelisting.datasource.image.remote.RemoteImageDataSource
@@ -21,8 +22,9 @@ class InfiniteImageListingApp : Application() {
 
         val easyHttpClient = EasyHttpClient.with(JsonRequestQueue(), "https://api.unsplash.com")
         val imageService = easyHttpClient.create(ImageService::class.java)
-        val localImageDataSource = LocalImageDataSource()
-        val remoteImageDataSource = RemoteImageDataSource(imageService)
+        val imageUIModelStore = ImageUIModelStore()
+        val localImageDataSource = LocalImageDataSource(imageUIModelStore)
+        val remoteImageDataSource = RemoteImageDataSource(imageService, imageUIModelStore)
 
         imageDataSource = ImageRepository(localImageDataSource, remoteImageDataSource)
     }

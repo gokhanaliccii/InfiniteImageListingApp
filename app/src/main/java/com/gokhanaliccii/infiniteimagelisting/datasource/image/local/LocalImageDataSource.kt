@@ -1,17 +1,18 @@
 package com.gokhanaliccii.infiniteimagelisting.datasource.image.local
 
+import com.gokhanaliccii.infiniteimagelisting.common.cache.KeyValueList
 import com.gokhanaliccii.infiniteimagelisting.datasource.image.ImageDataSource
 import com.gokhanaliccii.infiniteimagelisting.datasource.image.ImageUIModel
 
-class LocalImageDataSource : ImageDataSource {
-
-    private val pageImageListMap: Map<Int, List<ImageUIModel>> by lazy { mutableMapOf<Int, List<ImageUIModel>>() }
+class LocalImageDataSource(private val store: KeyValueList<Int, ImageUIModel>) : ImageDataSource {
 
     override fun loadImages(count: Int, page: Int, loadCallBack: ImageDataSource.ImageLoadCallBack) {
-        if (pageImageListMap.containsKey(page)) {
-            loadCallBack.onImagesLoaded(pageImageListMap.getValue(page))
-        } else {
+        val items = store.getItems(page)
+
+        if (items == null) {
             loadCallBack.imagesNotExist()
+        } else {
+            loadCallBack.onImagesLoaded(items)
         }
     }
 }
