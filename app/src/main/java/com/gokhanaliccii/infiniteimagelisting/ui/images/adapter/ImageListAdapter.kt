@@ -2,6 +2,7 @@ package com.gokhanaliccii.infiniteimagelisting.ui.images.adapter
 
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.RecyclerView.Adapter
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +23,8 @@ class ImageListAdapter(private var images: MutableList<ImageUIModel>) : Adapter<
     override fun getItemCount(): Int = images.size
 
     override fun onBindViewHolder(viewHolder: ImageViewHolder, index: Int) {
-        viewHolder.imageView.loadImage(images[index].imageUrl)
+        val imageUIModel = images[index]
+        viewHolder.imageView.loadImage(imageUIModel.imageUrl)
     }
 
     fun notifyNewImages(images: List<ImageUIModel>) {

@@ -25,7 +25,7 @@ class User {
 fun Image.toIUModel(): ImageUIModel {
     val uiModel = ImageUIModel()
     id?.let { uiModel.id = it }
-    urls?.regular?.let { uiModel.imageUrl = it }
+    urls?.small?.let { uiModel.imageUrl = it }
     user?.name?.let { uiModel.imageOwner = it }
     return uiModel
 }

@@ -9,10 +9,9 @@ interface ImageListContract {
 
         fun hideImageLoadingProgress()
 
-        fun hideLoadMoreProggress()
+        fun hideLoadMoreProgress()
 
         fun imagesLoaded(images: List<ImageUIModel>)
-
     }
 
     interface Presenter {

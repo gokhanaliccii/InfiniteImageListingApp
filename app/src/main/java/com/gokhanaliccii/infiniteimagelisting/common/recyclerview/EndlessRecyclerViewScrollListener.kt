@@ -8,7 +8,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager
 
 class EndlessRecyclerViewScrollListener(
     private val layoutManager: LayoutManager,
-    private var visibleThreshold: Int = 3,
+    private var visibleThreshold: Int = 10,
     private val onDataLoadable: (Int) -> Unit
 ) : RecyclerView.OnScrollListener() {
 
