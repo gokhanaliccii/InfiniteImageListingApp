@@ -8,7 +8,7 @@ class ImageListPresenter(private val view: ImageListContract.View,
     private var currentPage = 1
 
     override fun loadImages() {
-        imageListRepository.loadImages(loadCallBack = object : ImageDataSource.ImageLoadCallBack {
+        imageListRepository.loadImages(page = currentPage, loadCallBack = object : ImageDataSource.ImageLoadCallBack {
             override fun onImagesLoaded(images: List<ImageUIModel>) {
                 view.imagesLoaded(images)
                 view.hideImageLoadingProgress()
@@ -17,13 +17,21 @@ class ImageListPresenter(private val view: ImageListContract.View,
     }
 
     override fun loadMoreImages() {
-        ++currentPage
+        loadImagesAt(++currentPage)
+    }
 
+    override fun loadImagesAt(page: Int) {
         imageListRepository.loadImages(page = currentPage, loadCallBack = object : ImageDataSource.ImageLoadCallBack {
             override fun onImagesLoaded(images: List<ImageUIModel>) {
                 view.hideLoadMoreProgress()
                 view.imagesLoaded(images)
             }
         })
+    }
+
+    fun getCurrentPage() = currentPage
+
+    fun setCurrentPage(page: Int) {
+        currentPage = page
     }
 }

@@ -18,5 +18,7 @@ interface ImageListContract {
         fun loadImages()
 
         fun loadMoreImages()
+
+        fun loadImagesAt(page: Int)
     }
 }
