@@ -31,7 +31,7 @@ private fun loadAndCacheImages(imageView: ImageView, url: String) {
             urlConnection.inputStream.close()
             imageCache.addBitmapToMemoryCache(url, bitmap)
 
-            if (imageView.tag == url) {//ensure not reused
+            if (imageView.tag == url ) {//ensure not reused && still valid
                 android.os.Handler(Looper.getMainLooper()).post {
                     imageView.setImageBitmap(bitmap)
                 }

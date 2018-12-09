@@ -15,4 +15,8 @@ class LocalImageDataSource(private val store: KeyValueList<Int, ImageUIModel>) :
             loadCallBack.onImagesLoaded(items)
         }
     }
+
+    override fun stopOnGoingProcess() {
+
+    }
 }
