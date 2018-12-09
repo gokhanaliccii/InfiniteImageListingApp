@@ -5,7 +5,7 @@ import android.support.v4.util.LruCache
 
 class ImageCache {
 
-    private val mSupportMemoryCache: LruCache<String, Bitmap> by lazy {
+    private val urlBitmapLruCache: LruCache<String, Bitmap> by lazy {
         initMemoryCache(findCacheSize())
     }
 
@@ -16,12 +16,12 @@ class ImageCache {
 
     fun addBitmapToMemoryCache(key: String, bitmap: Bitmap) {
         if (getBitmapFromMemCache(key) == null) {
-            mSupportMemoryCache.put(key, bitmap)
+            urlBitmapLruCache.put(key, bitmap)
         }
     }
 
     fun getBitmapFromMemCache(key: String): Bitmap? {
-        return mSupportMemoryCache.get(key)
+        return urlBitmapLruCache.get(key)
     }
 
     private fun initMemoryCache(cacheSize: Int): LruCache<String, Bitmap> {
