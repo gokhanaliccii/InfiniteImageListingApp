@@ -12,6 +12,8 @@ interface ImageListContract {
         fun hideLoadMoreProgress()
 
         fun imagesLoaded(images: List<ImageUIModel>)
+
+        fun imagesLoadFailed()
     }
 
     interface Presenter {

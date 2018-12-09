@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.gokhanaliccii.infiniteimagelisting.InfiniteImageListingApp
 import com.gokhanaliccii.infiniteimagelisting.R
 import com.gokhanaliccii.infiniteimagelisting.common.recyclerview.EndlessRecyclerViewScrollListener
@@ -22,7 +23,6 @@ class ImageListFragment : Fragment(), ImageListContract.View {
         fun newInstance(): ImageListFragment = ImageListFragment()
     }
 
-
     private lateinit var presenter: ImageListPresenter
     private lateinit var loadableRecycler: LoadableRecyclerView
     private lateinit var endlessRecyclerViewScrollListener: EndlessRecyclerViewScrollListener
@@ -30,6 +30,7 @@ class ImageListFragment : Fragment(), ImageListContract.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         presenter = ImageListPresenter(this, InfiniteImageListingApp.instance.imageDataSource())
                 .apply {
                     savedInstanceState?.getInt(CURRENT_PAGE)?.apply {
@@ -76,6 +77,10 @@ class ImageListFragment : Fragment(), ImageListContract.View {
 
     override fun hideImageLoadingProgress() {
 
+    }
+
+    override fun imagesLoadFailed() {
+        Toast.makeText(context, getString(R.string.warning_image_load_failed), Toast.LENGTH_LONG)
     }
 
     override fun imagesLoaded(images: List<ImageUIModel>) {

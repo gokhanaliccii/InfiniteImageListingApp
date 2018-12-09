@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">InfiniteImageListingApp</string>
+    <string name="warning_image_load_failed">Image loading failed</string>
 </resources>
