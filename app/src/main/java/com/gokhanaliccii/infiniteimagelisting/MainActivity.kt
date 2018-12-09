@@ -3,12 +3,9 @@ package com.gokhanaliccii.infiniteimagelisting
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
-import com.gokhanaliccii.httpclient.EasyHttpClient
-import com.gokhanaliccii.httpclient.HttpRequestQueue
-import com.gokhanaliccii.httpclient.JsonRequestQueue
 import com.gokhanaliccii.infiniteimagelisting.common.recyclerview.EndlessRecyclerViewScrollListener
-import com.gokhanaliccii.infiniteimagelisting.datasource.image.remote.Image
-import com.gokhanaliccii.infiniteimagelisting.datasource.image.remote.ImageService
+import com.gokhanaliccii.infiniteimagelisting.datasource.image.ImageDataSource
+import com.gokhanaliccii.infiniteimagelisting.datasource.image.ImageUIModel
 import com.gokhanaliccii.infiniteimagelisting.ui.images.adapter.ImageListAdapter
 import com.gokhanaliccii.infiniteimagelisting.widget.LoadableRecyclerView
 import kotlinx.android.synthetic.main.view_loadable_recyclerview.*
@@ -34,13 +31,13 @@ class MainActivity : AppCompatActivity() {
             recyclerview.addOnScrollListener(endlessRecyclerViewScrollListener)
         }
 
-        val BASE_URL = "https://api.unsplash.com"
+        InfiniteImageListingApp.instance.imageDataSource()
+            .loadImages(loadCallBack = object : ImageDataSource.ImageLoadCallBack {
 
-
-        val easyHttpClient = EasyHttpClient.with(JsonRequestQueue(), BASE_URL)
-        val imageService = easyHttpClient.create(ImageService::class.java)
-
-
+                override fun onImagesLoaded(images: List<ImageUIModel>) {
+                    imageListAdapter.notify2(images)
+                }
+            })
 
 
     }

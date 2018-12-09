@@ -2,7 +2,6 @@ package com.gokhanaliccii.infiniteimagelisting.datasource.image.local
 
 import com.gokhanaliccii.infiniteimagelisting.datasource.image.ImageDataSource
 import com.gokhanaliccii.infiniteimagelisting.datasource.image.ImageUIModel
-import java.util.*
 
 class LocalImageDataSource : ImageDataSource {
 

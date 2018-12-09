@@ -8,11 +8,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.gokhanaliccii.infiniteimagelisting.R
 import com.gokhanaliccii.infiniteimagelisting.common.extension.loadImage
+import com.gokhanaliccii.infiniteimagelisting.datasource.image.ImageUIModel
 import com.gokhanaliccii.infiniteimagelisting.datasource.image.remote.Image
 
-class ImageListAdapter(private var images: List<Image>) : Adapter<ImageListAdapter.ImageViewHolder>() {
+class ImageListAdapter(private var images: List<ImageUIModel>) : Adapter<ImageListAdapter.ImageViewHolder>() {
 
-    fun notify2(images: List<Image>){
+    fun notify2(images: List<ImageUIModel>){
         this.images=images
         notifyDataSetChanged()
     }
@@ -26,7 +27,7 @@ class ImageListAdapter(private var images: List<Image>) : Adapter<ImageListAdapt
     override fun getItemCount(): Int = images.size
 
     override fun onBindViewHolder(viewHolder: ImageViewHolder, index: Int) {
-        viewHolder.imageView.loadImage(images[index].urls.small)
+        viewHolder.imageView.loadImage(images[index].imageUrl)
     }
 
     inner class ImageViewHolder(item: View) : RecyclerView.ViewHolder(item) {
