@@ -12,7 +12,6 @@ import com.gokhanaliccii.infiniteimagelisting.common.recyclerview.EndlessRecycle
 import com.gokhanaliccii.infiniteimagelisting.datasource.image.ImageUIModel
 import com.gokhanaliccii.infiniteimagelisting.ui.images.adapter.ImageListAdapter
 import com.gokhanaliccii.infiniteimagelisting.widget.LoadableRecyclerView
-import kotlinx.android.synthetic.main.view_loadable_recyclerview.*
 
 class ImageListFragment : Fragment(), ImageListContract.View {
 
@@ -52,14 +51,14 @@ class ImageListFragment : Fragment(), ImageListContract.View {
 
         val layoutManager = GridLayoutManager(context, COLUMN_COUNT)
         endlessRecyclerViewScrollListener = EndlessRecyclerViewScrollListener(layoutManager) {
-            presenter.loadMoreImages()
+            // presenter.loadMoreImages()
             loadableRecycler.showBottomLoadingProgress()
         }
 
         loadableRecycler.initRecyclerView {
-            recyclerview.adapter = imageListAdapter
-            recyclerview.layoutManager = layoutManager
-            recyclerview.addOnScrollListener(endlessRecyclerViewScrollListener)
+            recyclerView.adapter = imageListAdapter
+            recyclerView.layoutManager = layoutManager
+            recyclerView.addOnScrollListener(endlessRecyclerViewScrollListener)
         }
     }
 
@@ -71,7 +70,7 @@ class ImageListFragment : Fragment(), ImageListContract.View {
 
     }
 
-    override fun hideLoadMoreProggress() {
+    override fun hideLoadMoreProgress() {
         endlessRecyclerViewScrollListener.newDataLoaded()
         loadableRecycler.hideBottomLoadingProgress()
     }

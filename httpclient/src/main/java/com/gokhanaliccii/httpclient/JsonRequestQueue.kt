@@ -1,6 +1,7 @@
 package com.gokhanaliccii.httpclient
 
 import android.os.Looper
+import android.util.Log
 import com.gokhanaliccii.httpclient.util.closeStreams
 import com.gokhanaliccii.httpclient.util.isResponseCodeSucceed
 import com.gokhanaliccii.jsonparser.jsonTo
