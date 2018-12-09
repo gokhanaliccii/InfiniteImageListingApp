@@ -1,8 +1,10 @@
 package com.gokhanaliccii.infiniteimagelisting.datasource.image.remote
 
+import android.support.annotation.Keep
 import com.gokhanaliccii.infiniteimagelisting.datasource.image.ImageUIModel
 import com.gokhanaliccii.jsonparser.annotation.JsonObject
 
+@Keep
 class Image {
     var id: String? = null
     @JsonObject(Url::class)
@@ -11,12 +13,14 @@ class Image {
     var user: User? = null
 }
 
+@Keep
 class Url {
     var thumb: String? = null
     var small: String? = null
     var regular: String? = null
 }
 
+@Keep
 class User {
     var id: String? = null
     var name: String? = null
