@@ -51,7 +51,7 @@ class ImageListFragment : Fragment(), ImageListContract.View {
 
         val layoutManager = GridLayoutManager(context, COLUMN_COUNT)
         endlessRecyclerViewScrollListener = EndlessRecyclerViewScrollListener(layoutManager) {
-            // presenter.loadMoreImages()
+            presenter.loadMoreImages()
             loadableRecycler.showBottomLoadingProgress()
         }
 

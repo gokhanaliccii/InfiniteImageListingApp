@@ -5,6 +5,7 @@ import com.gokhanaliccii.jsonparser.annotation.JsonObject
 
 class Image {
     var id: String? = null
+    var color: String? = null
     @JsonObject(Url::class)
     var urls: Url? = null
     @JsonObject(User::class)
@@ -25,6 +26,7 @@ class User {
 fun Image.toIUModel(): ImageUIModel {
     val uiModel = ImageUIModel()
     id?.let { uiModel.id = it }
+    color?.let { uiModel.previewColor = it }
     urls?.regular?.let { uiModel.imageUrl = it }
     user?.name?.let { uiModel.imageOwner = it }
     return uiModel
