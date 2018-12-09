@@ -23,7 +23,8 @@ class ImageListAdapter(private var images: MutableList<ImageUIModel>) : Adapter<
     override fun getItemCount(): Int = images.size
 
     override fun onBindViewHolder(viewHolder: ImageViewHolder, index: Int) {
-        viewHolder.imageView.loadImage(images[index].imageUrl)
+        val imageUIModel = images[index]
+        viewHolder.imageView.loadImage(imageUIModel.imageUrl)
     }
 
     fun notifyNewImages(images: List<ImageUIModel>) {

@@ -4,4 +4,5 @@
     android:layout_height="wrap_content"
     android:adjustViewBounds="true"
     android:elevation="@dimen/image_elevation"
-    android:padding="@dimen/image_padding" />
+    android:padding="@dimen/image_padding"
+    android:src="@drawable/ic_loading_placeholder" />
