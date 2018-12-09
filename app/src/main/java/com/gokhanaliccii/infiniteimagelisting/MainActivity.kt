@@ -35,13 +35,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         val BASE_URL = "https://api.unsplash.com"
-        val CLIENT_ID = "f7af843e895c61a1f3434e6823743a08fb08ace46e203353f539a30eeb2a67e7"
 
 
         val easyHttpClient = EasyHttpClient.with(JsonRequestQueue(), BASE_URL)
         val imageService = easyHttpClient.create(ImageService::class.java)
 
-        imageService.getImages(CLIENT_ID).enqueue(object : HttpRequestQueue.HttpResult<Image> {
+        imageService.getImages(BuildConfig.UNSPLASH_APIKEY).enqueue(object : HttpRequestQueue.HttpResult<Image> {
             override fun onResponse(response: List<Image>) {
 
                 imageListAdapter.notify2(response)
