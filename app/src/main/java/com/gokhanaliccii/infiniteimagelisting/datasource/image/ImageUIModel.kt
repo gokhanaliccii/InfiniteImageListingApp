@@ -1,4 +1,3 @@
 package com.gokhanaliccii.infiniteimagelisting.datasource.image
 
-class ImageUIModel {
-}
+data class ImageUIModel(var id: String = "", var imageUrl: String = "", var imageOwner: String = "")

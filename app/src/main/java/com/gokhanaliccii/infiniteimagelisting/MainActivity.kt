@@ -40,15 +40,7 @@ class MainActivity : AppCompatActivity() {
         val easyHttpClient = EasyHttpClient.with(JsonRequestQueue(), BASE_URL)
         val imageService = easyHttpClient.create(ImageService::class.java)
 
-        imageService.getImages(BuildConfig.UNSPLASH_APIKEY).enqueue(object : HttpRequestQueue.HttpResult<Image> {
-            override fun onResponse(response: List<Image>) {
 
-                imageListAdapter.notify2(response)
-            }
-
-            override fun onResponse(response: Image) {
-            }
-        }, false, false)
 
 
     }

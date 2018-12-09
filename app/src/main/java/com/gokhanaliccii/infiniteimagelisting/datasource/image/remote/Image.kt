@@ -1,22 +1,31 @@
 package com.gokhanaliccii.infiniteimagelisting.datasource.image.remote
 
+import com.gokhanaliccii.infiniteimagelisting.datasource.image.ImageUIModel
 import com.gokhanaliccii.jsonparser.annotation.JsonObject
 
 class Image {
-    lateinit var id: String
+    var id: String? = null
     @JsonObject(Url::class)
-    lateinit var urls: Url
+    var urls: Url? = null
     @JsonObject(User::class)
-    lateinit var user: User
+    var user: User? = null
 }
 
 class Url {
-    lateinit var thumb: String
-    lateinit var small: String
-    lateinit var regular: String
+    var thumb: String? = null
+    var small: String? = null
+    var regular: String? = null
 }
 
 class User {
-    lateinit var id: String
-    lateinit var name: String
+    var id: String? = null
+    var name: String? = null
+}
+
+fun Image.toIUModel(): ImageUIModel {
+    val uiModel = ImageUIModel()
+    id?.let { uiModel.id = it }
+    urls?.regular?.let { uiModel.imageUrl = it }
+    user?.name?.let { uiModel.imageOwner = it }
+    return uiModel
 }
