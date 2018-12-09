@@ -22,5 +22,11 @@ interface ImageListContract {
         fun loadMoreImages()
 
         fun loadImagesAt(page: Int)
+
+        fun getCurrentPage(): Int
+
+        fun setCurrentPage(page: Int)
+
+        fun stop()
     }
 }

@@ -12,4 +12,8 @@ class ImageRepository(
             override fun imagesNotExist() = remoteSource.loadImages(count, page, loadCallBack)
         })
     }
+
+    override fun stopOnGoingProcess() {
+
+    }
 }

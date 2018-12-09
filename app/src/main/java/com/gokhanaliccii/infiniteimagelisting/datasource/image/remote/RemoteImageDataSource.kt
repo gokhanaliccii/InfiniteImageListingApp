@@ -23,4 +23,8 @@ class RemoteImageDataSource(private val imageService: ImageService,
                     }
                 }, false, false)
     }
+
+    override fun stopOnGoingProcess() {
+
+    }
 }

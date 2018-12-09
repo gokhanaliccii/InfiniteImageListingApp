@@ -2,7 +2,8 @@ package com.gokhanaliccii.infiniteimagelisting.common.lifecycle
 
 class LifeCycleBag {
 
-    lateinit var stateAndListenersList: MutableMap<String, MutableList<() -> Unit>>
+    private val stateAndListenersList: MutableMap<String, MutableList<() -> Unit>>
+            by lazy { mutableMapOf<String, MutableList<() -> Unit>>() }
 
     fun lifeCycleEventTriggered(state: String) {
         stateAndListenersList[state]?.forEach { it.invoke() }
@@ -18,5 +19,9 @@ class LifeCycleBag {
             emptyList.add(func)
             stateAndListenersList.put(state, emptyList)
         }
+    }
+
+    fun clear() {
+        stateAndListenersList.clear()
     }
 }

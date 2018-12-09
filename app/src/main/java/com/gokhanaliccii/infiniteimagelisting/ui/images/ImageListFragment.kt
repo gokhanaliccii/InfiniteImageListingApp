@@ -71,6 +71,11 @@ class ImageListFragment : Fragment(), ImageListContract.View {
         })
     }
 
+    override fun onStop() {
+        super.onStop()
+        presenter.stop()
+    }
+
     override fun showImagesLoadingProgress() {
 
     }

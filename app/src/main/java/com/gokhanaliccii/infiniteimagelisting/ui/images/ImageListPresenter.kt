@@ -30,9 +30,13 @@ class ImageListPresenter(private val view: ImageListContract.View,
         })
     }
 
-    fun getCurrentPage() = currentPage
+    override fun getCurrentPage() = currentPage
 
-    fun setCurrentPage(page: Int) {
+    override fun setCurrentPage(page: Int) {
         currentPage = page
+    }
+
+    override fun stop() {
+        imageListRepository.stopOnGoingProcess()
     }
 }

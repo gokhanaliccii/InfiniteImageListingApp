@@ -7,9 +7,9 @@ import android.support.v7.widget.RecyclerView.LayoutManager
 import android.support.v7.widget.StaggeredGridLayoutManager
 
 class EndlessRecyclerViewScrollListener(
-    private val layoutManager: LayoutManager,
-    private var visibleThreshold: Int = 10,
-    private val onDataLoadable: (Int) -> Unit
+        private val layoutManager: LayoutManager,
+        private var visibleThreshold: Int = 10,
+        private val onDataLoadable: (Int) -> Unit
 ) : RecyclerView.OnScrollListener() {
 
     private var loading = true
@@ -57,7 +57,7 @@ class EndlessRecyclerViewScrollListener(
     private fun isDataLoaded(currentItemCount: Int) = loading && currentItemCount > knownItemCount
 
     private fun shouldLoadMoreItem(lastVisibleItemPosition: Int, currentItemCount: Int) =
-        !loading && lastVisibleItemPosition + visibleThreshold > currentItemCount
+            !loading && lastVisibleItemPosition + visibleThreshold > currentItemCount
 
     fun newDataLoaded() {
         this.loading = true
