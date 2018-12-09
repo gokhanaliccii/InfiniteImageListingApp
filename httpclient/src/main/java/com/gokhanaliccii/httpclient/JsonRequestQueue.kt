@@ -13,9 +13,11 @@ import java.net.URL
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
+private const val MAX_THREAD_COUNT = 10
+
 class JsonRequestQueue : HttpRequestQueue {
 
-    private val executorService: ExecutorService by lazy { Executors.newFixedThreadPool(10) }
+    private var executorService: ExecutorService = Executors.newFixedThreadPool(MAX_THREAD_COUNT)
 
     override fun <T> add(request: HttpRequestQueue.HttpRequest<T>, needCache: Boolean) {
     }
@@ -28,9 +30,12 @@ class JsonRequestQueue : HttpRequestQueue {
     }
 
     override fun stop() {
+        executorService.shutdown()
+        executorService = Executors.newFixedThreadPool(MAX_THREAD_COUNT)
     }
 
     override fun removeAll() {
+
     }
 
     private fun <T> sendRequest(request: HttpRequestQueue.HttpRequest<T>) {

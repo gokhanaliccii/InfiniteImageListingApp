@@ -27,22 +27,31 @@ class InfiniteImageListingApp : Application() {
     }
 
     private lateinit var imageDataSource: ImageDataSource
+    private val jsonRequestQueue = JsonRequestQueue()
 
     override fun onCreate() {
         super.onCreate()
 
         instance = this
-        activityLifeCycleBag = LifeCycleBag()
-        fragmentLifeCycleBag = LifeCycleBag()
-        ApplicationLifeCycleRegistry().registerAppLifeCycleCallback(this)
+        initLifeCycle()
 
-        val easyHttpClient = EasyHttpClient.with(JsonRequestQueue(), BASE_URL)
-        val imageService = easyHttpClient.create(ImageService::class.java)
         val imageUIModelStore = ImageUIModelStore()
+        val easyHttpClient = EasyHttpClient.with(jsonRequestQueue, BASE_URL)
+        val imageService = easyHttpClient.create(ImageService::class.java)
         val localImageDataSource = LocalImageDataSource(imageUIModelStore)
         val remoteImageDataSource = RemoteImageDataSource(imageService, imageUIModelStore)
 
         imageDataSource = ImageRepository(localImageDataSource, remoteImageDataSource)
+    }
+
+    private fun initLifeCycle() {
+        activityLifeCycleBag = LifeCycleBag()
+        fragmentLifeCycleBag = LifeCycleBag()
+        ApplicationLifeCycleRegistry().registerAppLifeCycleCallback(this)
+    }
+
+    fun interruptOutCalls(){
+        jsonRequestQueue.stop()
     }
 
     fun imageDataSource(): ImageDataSource = imageDataSource

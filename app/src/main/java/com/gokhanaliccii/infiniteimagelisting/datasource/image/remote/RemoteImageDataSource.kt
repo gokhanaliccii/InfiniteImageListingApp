@@ -2,6 +2,7 @@ package com.gokhanaliccii.infiniteimagelisting.datasource.image.remote
 
 import com.gokhanaliccii.httpclient.HttpRequestQueue
 import com.gokhanaliccii.infiniteimagelisting.BuildConfig
+import com.gokhanaliccii.infiniteimagelisting.InfiniteImageListingApp
 import com.gokhanaliccii.infiniteimagelisting.common.cache.KeyValueList
 import com.gokhanaliccii.infiniteimagelisting.datasource.image.ImageDataSource
 import com.gokhanaliccii.infiniteimagelisting.datasource.image.ImageUIModel
@@ -25,6 +26,6 @@ class RemoteImageDataSource(private val imageService: ImageService,
     }
 
     override fun stopOnGoingProcess() {
-
+        InfiniteImageListingApp.instance.interruptOutCalls()
     }
 }

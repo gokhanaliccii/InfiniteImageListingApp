@@ -14,6 +14,7 @@ class ImageRepository(
     }
 
     override fun stopOnGoingProcess() {
-
+        localSource.stopOnGoingProcess()
+        remoteSource.stopOnGoingProcess()
     }
 }
