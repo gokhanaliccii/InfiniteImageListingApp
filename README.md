@@ -132,6 +132,7 @@ ___
 First of all I had fun during this application and I spent most of my time (%80) to create internal libraries. I think that libraries are important for application extension and maintainability. I heavily used kotlin for this project but I wish to use it with thirdparty libraries :) 
 
 #### Improvements
+* I don't use 'usecase' approach for this project to make lightweight
 * Http library's retry and cache implemantations are not completed yet
 * Configuration change supported for this app but it's not working like my wants
 * Http and json parser needs that object types explicity
@@ -139,6 +140,7 @@ First of all I had fun during this application and I spent most of my time (%80)
 * During the project development sometimes I couldn't apply TDD :(
 * Loading animation
 * Detail Page
+* I don't seperate application's dependency initialization at another moduele/package to keep app simple
 
 ### Wish To Use 
 * Databinding
