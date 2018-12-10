@@ -126,6 +126,38 @@ I used clean MVP architecture. At the service layer I used dto objects to map se
 #### Infinite Scroll Logic
 I figure outed load more via [EndlessRecyclerViewScrollListener](https://github.com/gokhanaliccii/InfiniteImageListingApp/blob/develop/app/src/main/java/com/gokhanaliccii/infiniteimagelisting/common/recyclerview/EndlessRecyclerViewScrollListener.kt) and handle pagination logic at [ImageListPresenter](https://github.com/gokhanaliccii/InfiniteImageListingApp/blob/develop/app/src/main/java/com/gokhanaliccii/infiniteimagelisting/ui/images/ImageListPresenter.kt).
 
+#### Useful Code Snippents
+
+It checks images from memory cache and if it is not exist load from url
+
+```kotlin
+fun ImageView.loadImage(url: String) {
+    tag = url
+    val bitmapFromCache = imageCache.getBitmapFromMemCache(url)
+    if (bitmapFromCache != null) {
+        setImageBitmap(bitmapFromCache)
+    } else {
+        loadAndCacheImages(this, url)
+    }
+}
+```
+It listens intented lifecycle event without retain activity/fragment instance
+
+```kotlin
+  init {
+        InfiniteImageListingApp.fragmentLifeCycleBag.attachToLifeCycle("onFragmentStopped"){
+            Log.i("ImageListPresenter", "onFragmentStopped")        
+        }
+    }
+```    
+
+With [Header](https://github.com/gokhanaliccii/InfiniteImageListingApp/blob/develop/httpclient/src/main/java/com/gokhanaliccii/httpclient/annotation/header/Header.kt) annotation we can define header params easily
+
+```kotlin
+   @POST("/photos")
+   @Header("Authorization:Client-ID XXX")
+   Request<Photo> getPhotos();
+``` 
 
 ___
 ## Personal Note
