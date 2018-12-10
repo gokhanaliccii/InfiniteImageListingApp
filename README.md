@@ -126,7 +126,7 @@ I used clean MVP architecture. At the service layer I used dto objects to map se
 #### Infinite Scroll Logic
 I figure outed load more via [EndlessRecyclerViewScrollListener](https://github.com/gokhanaliccii/InfiniteImageListingApp/blob/develop/app/src/main/java/com/gokhanaliccii/infiniteimagelisting/common/recyclerview/EndlessRecyclerViewScrollListener.kt) and handle pagination logic at [ImageListPresenter](https://github.com/gokhanaliccii/InfiniteImageListingApp/blob/develop/app/src/main/java/com/gokhanaliccii/infiniteimagelisting/ui/images/ImageListPresenter.kt).
 
-#### Useful Code Snippents
+#### Useful Code Snippets
 
 It checks images from memory cache and if it is not exist load from url
 
