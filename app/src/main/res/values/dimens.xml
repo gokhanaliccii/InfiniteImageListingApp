@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="image_padding">5dp</dimen>
+    <dimen name="image_elevation">4dp</dimen>
+    <dimen name="activity_padding">20dp</dimen>
+</resources>
