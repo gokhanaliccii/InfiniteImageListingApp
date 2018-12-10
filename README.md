@@ -112,7 +112,7 @@ Usage
             }
         }, false, false);
 ``` 
-WasyHttpClient process annotations to make service request. We have to use **@TYPE** annotation for object mapping
+WasyHttpClient process annotations to make service request. We have to use [TYPE](https://github.com/gokhanaliccii/InfiniteImageListingApp/blob/develop/httpclient/src/main/java/com/gokhanaliccii/httpclient/annotation/method/TYPE.kt) annotation for object mapping
 [EasyHttpClient Example1](https://github.com/gokhanaliccii/InfiniteImageListingApp/blob/develop/httpclient/src/test/java/com/gokhanaliccii/httpclient/HttpClientTest.java)        [EasyHttpClient Example2](https://github.com/gokhanaliccii/InfiniteImageListingApp/blob/develop/httpclient/src/androidTest/java/com/gokhanaliccii/httpclient/HttpClientTest.java) 
 
 ## Application
@@ -125,5 +125,26 @@ I used clean MVP architecture. At the service layer I used dto objects to map se
 
 #### Infinite Scroll Logic
 I figure outed load more via [EndlessRecyclerViewScrollListener](https://github.com/gokhanaliccii/InfiniteImageListingApp/blob/develop/app/src/main/java/com/gokhanaliccii/infiniteimagelisting/common/recyclerview/EndlessRecyclerViewScrollListener.kt) and handle pagination logic at [ImageListPresenter](https://github.com/gokhanaliccii/InfiniteImageListingApp/blob/develop/app/src/main/java/com/gokhanaliccii/infiniteimagelisting/ui/images/ImageListPresenter.kt).
+
+
+___
+## Personal Note
+First of all I had fun during this application and I spent most of my time (%80) to create internal libraries. I think that libraries are important for application extension and maintainability. I heavily used kotlin for this project but I wish to use it with thirdparty libraries :) 
+
+#### Improvements
+* Http library's retry and cache implemantations are not completed yet
+* Configuration change supported for this app but it's not working like my wants
+* Http and json parser needs that object types explicity
+* I need to improve utest coverages
+* During the project development sometimes I couldn't apply TDD :(
+
+### Wish To Use 
+* Databinding
+* Rx | Coroutines
+* Gson
+* Retrofit
+* Koin
+* Espresso
+* MockK
 
 
