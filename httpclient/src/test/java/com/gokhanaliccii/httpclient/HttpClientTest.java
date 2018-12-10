@@ -106,7 +106,5 @@ public class HttpClientTest {
         @POST("/postMethod")
         @Header("Authorization:Client-ID XXX")
         Request<String> postMethodWithHeader();
-
-
     }
 }

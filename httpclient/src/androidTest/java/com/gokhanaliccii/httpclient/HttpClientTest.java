@@ -31,6 +31,10 @@ public class HttpClientTest {
 
         imageService.getImages(CLIENT_ID).enqueue(new HttpRequestQueue.HttpResult<Photo>() {
             @Override
+            public void onRequestFailed(@NotNull Exception exception) {
+            }
+
+            @Override
             public void onResponse(Photo response) {
                 assertThat(response, notNullValue());
                 countDownLatch.countDown();
