@@ -2,7 +2,7 @@
 
 # InfiniteImageListingApp
 
-Sample image listing app which uses unsplash api. When we scroll down to list it automaticall load new images from service during to load time application loading bar visible at the bottom of screen. Application architecture is **CLEAN MVP** and **not used any third party library**. Due to third party limitation and future of application I decided to make internal libraries which makes network requests and json serialization easier and generic.
+Sample image listing app which uses unsplash api. When we scroll down the list, it automatically loads new images from service during the load time, loading bar displayed at the bottom of screen. Application architecture is **CLEAN MVP** and **not used any third party library**. Due to third party limitations and future of application I decided to make internal libraries which makes network requests and json serialization easier and generic.
 
 Loading | Loaded | Load More | Failed|
 --- | --- | --- | --- |
@@ -11,17 +11,17 @@ Loading | Loaded | Load More | Failed|
 
 
 ## Development Plan
- 1. Creating continuous integration pipeline
+ 1. Creating Continuous Integration Pipeline
  
      >I chosed "circle-ci" and created pipeline. I applied branch merge restriction on **develop branch** it won't accept merges until circle-ci result. In that pipeline it run unit tests and lint check
        
- 2. Creating json parser library
+ 2. Creating JsonParser Library
  
-    >I wanted to create json parser library because It will make json deserialization easy. My purpose was give json string with intented model to library and it will return that model which is filled by given json properties. I used reflection to fill model's field. To be sure functionality working expectedly and documenting I wrote unit tests.
+    >I wanted to create json parser library because it will make json deserialization easy. My purpose was give json string with intented model to library and it will return that model which is filled by given json properties. I used reflection to fill model's field. Unit tests are written to be sure functionality working as expectedly and documenting.
     
- 3. Creating http library
+ 3. Creating Http library
   
-     >I wanted to create http library because I will use it heavily during the project and it will prevent code duplication and time wasting in future. To make using this library easier I added annotation functionality so developer only need to define service endpoint and requeired properties :) To be sure functionality working expectedly and documenting I wrote unit and integration tests.
+     >I wanted to create http library because I will use it heavily during the project and it will prevent code duplications and time wasting in the future. To make using this library easier I added annotation functionality so developer only need to define service endpoint and required properties :) Unit tests are written to be sure functionality working as expectedly and documenting.
 
  4. Implementing Application Logic
     >I implemented infinite scroll logic using clean MVP architecture and I used Kotlin and Java. Additionaly I created in memory cache for enhance image displaying performance and to listen application lifecycle I created 'LifeCycleBag', basically we can listen lifecycle events even when we don't have activity or fragment reference :)
