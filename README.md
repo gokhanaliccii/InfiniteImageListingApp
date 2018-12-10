@@ -30,7 +30,7 @@ Loading | Loaded | Load More | Failed|
 ## CI Overview
 
 Image | Description |
---- | --- |
+:--- | :--- |
 *![images loaded](https://github.com/gokhanaliccii/InfiniteImageListingApp/blob/develop/screenshots/pull_request.png)*|When I create pr it trigger circle-ci job
 *![images loaded](https://github.com/gokhanaliccii/InfiniteImageListingApp/blob/develop/screenshots/pull_request_ci_result.png)*|Circle-ci job result at pr page
 *![images loaded](https://github.com/gokhanaliccii/InfiniteImageListingApp/blob/develop/screenshots/pr_after_fixed.png)*|After failed test fixed pr page
@@ -54,14 +54,32 @@ class NamedPerson {
 Usage for array mapping
 ```kotlin
 val input = "[{\"name\":\"gokhan\",\"age\":1}]"
-val student = input.jsonToList(NamedPerson::class.java)
+val person = input.jsonToList(NamedPerson::class.java)
 
 class NamedPerson {
   lateinit var name: String
 }
 ```
 
-I create two extension function **jsonTo** and **jsontoList** on String class. I used reflection for json mapping. **Problematic** part of this library is reference has to has default constructor. [Json Parser Examples](https://github.com/gokhanaliccii/InfiniteImageListingApp/blob/develop/jsonparser/src/test/java/com/gokhanaliccii/jsonparser/JsonParserTest.kt)
+Advanced Usage 
+```kotlin
+  val input = "{\"name\":\"gokhan\",\"age\":1,\"friends\":[{\"name\":\"ahmet\"}]}"
+  val student = input.jsonTo(Student::class.java)
+
+   class Friend {
+        lateinit var name: String
+    }
+
+    class Student {
+        var age: Int = 0
+        lateinit var name: String
+
+        @JsonList(Friend::class)
+        lateinit var friends: List<Friend>
+    }
+```
+
+I create two extension function **jsonTo** and **jsontoList** on String class and . I used reflection for json mapping. **Problematic** part of this library is reference class has to has default constructor. And if object contains sub object or array it should annotate that field [Json Parser Examples With Annotations](https://github.com/gokhanaliccii/InfiniteImageListingApp/blob/develop/jsonparser/src/test/java/com/gokhanaliccii/jsonparser/JsonParserTest.kt)
 
 ## Http Client Library
 Dependency
@@ -94,5 +112,18 @@ Usage
             }
         }, false, false);
 ``` 
+WasyHttpClient process annotations to make service request. We have to use **@TYPE** annotation for object mapping
 [EasyHttpClient Example1](https://github.com/gokhanaliccii/InfiniteImageListingApp/blob/develop/httpclient/src/test/java/com/gokhanaliccii/httpclient/HttpClientTest.java)        [EasyHttpClient Example2](https://github.com/gokhanaliccii/InfiniteImageListingApp/blob/develop/httpclient/src/androidTest/java/com/gokhanaliccii/httpclient/HttpClientTest.java) 
+
+## Application
+
+#### Package Convention
+I used package by feature convention. I created five different packages; common, datasource, dialog, ui, widget. Each package grouped by their feature name usually, **common** package contains util classes and extensions, **datasource** package contains repositories but currently we have only image repository now, **dialog** package contains common dialogs, **ui** package contains fragments and activities by feature separated, **widget** package contains custom views.
+
+#### Architecture
+I used clean MVP architecture. At the service layer I used dto objects to map service responses to ui objects. With this approach if the service response or service will change in the future we would just change our dto mapping logic :) I initialized singleton object like image cache, service layer etc at the application class. I added unit and integration test for httpclient and json parser. But I could not write for application because I need **third party** libraries like **mockito** . If I had chance to use third party libraries I would add tests for this layer
+
+#### Infinite Scroll Logic
+I figure outed load more via [EndlessRecyclerViewScrollListener](https://github.com/gokhanaliccii/InfiniteImageListingApp/blob/develop/app/src/main/java/com/gokhanaliccii/infiniteimagelisting/common/recyclerview/EndlessRecyclerViewScrollListener.kt) and handle pagination logic at [ImageListPresenter](https://github.com/gokhanaliccii/InfiniteImageListingApp/blob/develop/app/src/main/java/com/gokhanaliccii/infiniteimagelisting/ui/images/ImageListPresenter.kt).
+
 
