@@ -137,6 +137,8 @@ First of all I had fun during this application and I spent most of my time (%80)
 * Http and json parser needs that object types explicity
 * I need to improve utest coverages
 * During the project development sometimes I couldn't apply TDD :(
+* Loading animation
+* Detail Page
 
 ### Wish To Use 
 * Databinding
