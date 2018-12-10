@@ -8,7 +8,6 @@ class LocalImageDataSource(private val store: KeyValueList<Int, ImageUIModel>) :
 
     override fun loadImages(count: Int, page: Int, loadCallBack: ImageDataSource.ImageLoadCallBack) {
         val items = store.getItems(page)
-
         if (items == null) {
             loadCallBack.imagesNotExist()
         } else {

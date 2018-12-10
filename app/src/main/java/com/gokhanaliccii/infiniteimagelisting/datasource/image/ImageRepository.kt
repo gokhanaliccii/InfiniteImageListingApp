@@ -2,8 +2,7 @@ package com.gokhanaliccii.infiniteimagelisting.datasource.image
 
 class ImageRepository(
     private val localSource: ImageDataSource,
-    private val remoteSource: ImageDataSource
-) : ImageDataSource {
+    private val remoteSource: ImageDataSource) : ImageDataSource {
 
     override fun loadImages(count: Int, page: Int, loadCallBack: ImageDataSource.ImageLoadCallBack) {
         localSource.loadImages(count, page, object : ImageDataSource.ImageLoadCallBack {
